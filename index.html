@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Raízes do Nordeste</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="interface">
+
+        <div class="logo">
+            <h1>🌵 Raízes do Nordeste</h1>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#cardapio">Cardápio</a></li>
+                <li><a href="#promocoes">Promoções</a></li>
+                <li><a href="#fidelidade">Fidelidade</a></li>
+                <li><a href="#pedido">Meu pedido</a></li>
+            </ul>
+        </nav>
+
+        <button class="btn-login" onclick="abrirLogin()">
+            Entrar
+        </button>
+
+    </div>
+</header>
+
+
+<main>
+
+    <!-- INÍCIO -->
+    <section id="inicio" class="hero">
+
+        <div class="interface">
+
+            <div class="hero-text">
+                <p class="subtitulo">SABORES QUE CONTAM HISTÓRIAS</p>
+
+                <h2>
+                    O sabor do Nordeste
+                    <span>na sua mesa.</span>
+                </h2>
+
+                <p>
+                    Conheça nossos pratos e sabores inspirados
+                    na culinária nordestina.
+                </p>
+
+                <a href="#cardapio">
+                    <button>Ver cardápio</button>
+                </a>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- UNIDADE -->
+    <section class="unidade">
+
+        <div class="interface">
+
+            <h2>Escolha sua unidade</h2>
+
+            <select id="unidadeSelect">
+                <option value="">Selecione uma unidade</option>
+                <option value="sbc">São Bernardo do Campo</option>
+                <option value="santo-andre">Santo André</option>
+                <option value="sao-paulo">São Paulo</option>
+            </select>
+
+        </div>
+
+    </section>
+
+
+    <!-- CARDÁPIO -->
+    <section id="cardapio" class="cardapio">
+
+        <div class="interface">
+
+            <h2>Nosso <span>Cardápio</span></h2>
+
+            <div class="categorias">
+
+                <button onclick="filtrarCategoria('todos')">
+                    Todos
+                </button>
+
+                <button onclick="filtrarCategoria('pratos')">
+                    Pratos
+                </button>
+
+                <button onclick="filtrarCategoria('bebidas')">
+                    Bebidas
+                </button>
+
+                <button onclick="filtrarCategoria('sobremesas')">
+                    Sobremesas
+                </button>
+
+            </div>
+
+
+            <div class="produtos">
+
+                <div class="produto" data-categoria="pratos">
+                    <div class="produto-img">🍛</div>
+
+                    <h3>Baião de Dois</h3>
+
+                    <p>
+                        Arroz, feijão, queijo coalho e temperos.
+                    </p>
+
+                    <strong>R$ 28,90</strong>
+
+                    <button onclick="adicionarCarrinho('Baião de Dois', 28.90)">
+                        Adicionar
+                    </button>
+                </div>
+
+
+                <div class="produto" data-categoria="pratos">
+                    <div class="produto-img">🥩</div>
+
+                    <h3>Carne de Sol</h3>
+
+                    <p>
+                        Carne de sol acompanhada de ingredientes
+                        tradicionais nordestinos.
+                    </p>
+
+                    <strong>R$ 34,90</strong>
+
+                    <button onclick="adicionarCarrinho('Carne de Sol', 34.90)">
+                        Adicionar
+                    </button>
+                </div>
+
+
+                <div class="produto" data-categoria="pratos">
+                    <div class="produto-img">🍗</div>
+
+                    <h3>Frango com Baião</h3>
+
+                    <p>
+                        Frango grelhado acompanhado de baião de dois.
+                    </p>
+
+                    <strong>R$ 31,90</strong>
+
+                    <button onclick="adicionarCarrinho('Frango com Baião', 31.90)">
+                        Adicionar
+                    </button>
+                </div>
+
+
+                <div class="produto" data-categoria="bebidas">
+                    <div class="produto-img">🥤</div>
+
+                    <h3>Guaraná</h3>
+
+                    <p>Refrigerante gelado.</p>
+
+                    <strong>R$ 6,00</strong>
+
+                    <button onclick="adicionarCarrinho('Guaraná', 6.00)">
+                        Adicionar
+                    </button>
+                </div>
+
+
+                <div class="produto" data-categoria="bebidas">
+                    <div class="produto-img">🥭</div>
+
+                    <h3>Suco de Maracujá</h3>
+
+                    <p>Suco natural de maracujá.</p>
+
+                    <strong>R$ 8,00</strong>
+
+                    <button onclick="adicionarCarrinho('Suco de Maracujá', 8.00)">
+                        Adicionar
+                    </button>
+                </div>
+
+
+                <div class="produto" data-categoria="sobremesas">
+                    <div class="produto-img">🍌</div>
+
+                    <h3>Cartola</h3>
+
+                    <p>
+                        Sobremesa tradicional com banana e queijo.
+                    </p>
+
+                    <strong>R$ 12,90</strong>
+
+                    <button onclick="adicionarCarrinho('Cartola', 12.90)">
+                        Adicionar
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PROMOÇÕES -->
+    <section id="promocoes" class="promocoes">
+
+        <div class="interface">
+
+            <h2>Promoção</h2>
+
+            <div class="promocao-card">
+
+                <h3>Combo Nordeste</h3>
+
+                <p>
+                    Combine pratos selecionados e aproveite
+                    uma condição especial.
+                </p>
+
+                <strong>R$ 49,90</strong>
+
+                <button onclick="adicionarCarrinho('Combo Nordeste', 49.90)">
+                    Adicionar ao pedido
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FIDELIDADE -->
+    <section id="fidelidade" class="fidelidade">
+
+        <div class="interface">
+
+            <h2>Programa de <span>Fidelidade</span></h2>
+
+            <div class="fidelidade-card">
+
+                <p>Seus pontos</p>
+
+                <strong id="pontos">120</strong>
+
+                <p>
+                    Acumule pontos através dos seus pedidos
+                    e troque por recompensas.
+                </p>
+
+                <button onclick="mostrarRecompensa()">
+                    Ver recompensa
+                </button>
+
+                <p id="recompensa"></p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PEDIDO -->
+    <section id="pedido" class="pedido">
+
+        <div class="interface">
+
+            <h2>Meu <span>Pedido</span></h2>
+
+            <div id="carrinho">
+
+                <p>Seu carrinho está vazio.</p>
+
+            </div>
+
+            <div class="total">
+
+                <strong>
+                    Total: R$ <span id="total">0,00</span>
+                </strong>
+
+            </div>
+
+            <button onclick="finalizarPedido()">
+                Finalizar pedido
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- STATUS -->
+    <section class="status">
+
+        <div class="interface">
+
+            <h2>Status do pedido</h2>
+
+            <div class="status-list">
+
+                <div class="status-item ativo">
+                    <span>1</span>
+                    <p>Pedido recebido</p>
+                </div>
+
+                <div class="status-item">
+                    <span>2</span>
+                    <p>Em preparo</p>
+                </div>
+
+                <div class="status-item">
+                    <span>3</span>
+                    <p>Pronto</p>
+                </div>
+
+                <div class="status-item">
+                    <span>4</span>
+                    <p>Finalizado</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- LGPD -->
+    <section class="lgpd">
+
+        <div class="interface">
+
+            <h2>Privacidade e LGPD</h2>
+
+            <p>
+                Seus dados pessoais são utilizados para
+                funcionalidades como cadastro, autenticação,
+                pedidos e programa de fidelidade.
+            </p>
+
+            <label>
+                <input type="checkbox" id="consentimento">
+                Concordo com o uso dos meus dados conforme
+                a política de privacidade.
+            </label>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- MODAL DE LOGIN -->
+<div id="modalLogin" class="modal">
+
+    <div class="modal-content">
+
+        <span class="fechar" onclick="fecharLogin()">
+            &times;
+        </span>
+
+        <h2>Entrar</h2>
+
+        <input
+                type="email"
+                id="email"
+                placeholder="E-mail"
+        >
+
+        <input
+                type="password"
+                id="senha"
+                placeholder="Senha"
+        >
+
+        <button onclick="login()">
+            Entrar
+        </button>
+
+        <p id="mensagemLogin"></p>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    <p>
+        © 2026 Raízes do Nordeste
+    </p>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
