@@ -1,0 +1,255 @@
+Depois, monte a página com esta estrutura inicial:
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio | Raízes do Nordeste</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="container header-container">
+
+        <a href="index.html" class="logo">
+            <div class="logo-icon">RN</div>
+            <div class="logo-text">
+                <strong>Raízes do Nordeste</strong>
+                <span>Sabores regionais com pedido digital</span>
+            </div>
+        </a>
+
+        <nav class="menu">
+            <a href="fidelidade.html">Fidelidade</a>
+            <a href="unidades.html">Unidades</a>
+            <a href="cardapio.html">Cardápio</a>
+            <a href="perfil.html">Minha conta</a>
+        </nav>
+
+    </div>
+</header>
+
+<main class="menu-page">
+
+    <section class="menu-intro container">
+        <span class="eyebrow">SABORES DA NOSSA TERRA</span>
+        <h1>Nosso cardápio</h1>
+        <p>
+            Receitas inspiradas na tradição nordestina,
+            preparadas para deixar seu pedido ainda mais especial.
+        </p>
+
+        <div class="unit-card">
+            <p>Você está visualizando o cardápio de:</p>
+            <strong id="nome-unidade">Unidade não selecionada</strong>
+            <a href="unidades.html">Trocar unidade</a>
+        </div>
+    </section>
+
+    <section class="menu-products container">
+
+        <nav class="category-nav" aria-label="Categorias do cardápio">
+            <a href="#pratos">Pratos principais</a>
+            <a href="#bebidas">Bebidas</a>
+            <a href="#sobremesas">Sobremesas</a>
+        </nav>
+
+        <section id="pratos" class="product-section">
+            <h2>Pratos principais</h2>
+
+            <div class="product-grid">
+
+                <article class="product-card" data-unidades="São Bernardo do Campo,Santo André">
+                    <div class="product-image">🍲</div>
+
+                    <div class="product-info">
+                        <h3>Baião de dois</h3>
+                        <p>Arroz, feijão, queijo coalho e temperos regionais.</p>
+
+                        <div class="product-bottom">
+                            <strong>R$28,90</strong>
+                            <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    onclick="adicionarCarrinho('Baião de dois', 28.90)">
+                                Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-unidades="São Bernardo do Campo,Santo André,São Paulo">
+                    <div class="product-image">🍛</div>
+
+                    <div class="product-info">
+                        <h3>Carne de sol</h3>
+                        <p>Carne de sol acompanhada de guarnições regionais.</p>
+
+                        <div class="product-bottom">
+                            <strong>R$34,90</strong>
+                            <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    onclick="adicionarCarrinho('Carne de sol', 34.90)">
+                                Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-unidades="São Bernardo do Campo,Santo André,São Paulo">
+                    <div class="product-image">🍗</div>
+
+                    <div class="product-info">
+                        <h3>Frango com baião</h3>
+                        <p>Frango temperado servido com baião de dois.</p>
+
+                        <div class="product-bottom">
+                            <strong>R$31,90</strong>
+                            <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    onclick="adicionarCarrinho('Frango com baião', 31.90)">
+                                Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <section id="bebidas" class="product-section">
+            <h2>Bebidas</h2>
+
+            <div class="product-grid">
+
+                <article class="product-card" data-unidades="São Bernardo do Campo,Santo André,São Paulo">
+                    <div class="product-image">🥤</div>
+
+                    <div class="product-info">
+                        <h3>Refrigerante</h3>
+                        <p>Refrigerante gelado para acompanhar seu prato.</p>
+
+                        <div class="product-bottom">
+                            <strong>R$6,00</strong>
+                            <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    onclick="adicionarCarrinho('Refrigerante', 6.00)">
+                                Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-unidades="São Bernardo do Campo,Santo André,São Paulo">
+                    <div class="product-image">🍹</div>
+
+                    <div class="product-info">
+                        <h3>Suco de maracujá</h3>
+                        <p>Uma opção refrescante para sua refeição.</p>
+
+                        <div class="product-bottom">
+                            <strong>R$8,00</strong>
+                            <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    onclick="adicionarCarrinho('Suco de maracujá', 8.00)">
+                                Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <section id="sobremesas" class="product-section">
+            <h2>Sobremesas</h2>
+
+            <div class="product-grid">
+
+                <article class="product-card" data-unidades="São Bernardo do Campo,Santo André,São Paulo">
+                    <div class="product-image">🍌</div>
+
+                    <div class="product-info">
+                        <h3>Cartola</h3>
+                        <p>Banana, queijo e um toque de canela.</p>
+
+                        <div class="product-bottom">
+                            <strong>R$12,90</strong>
+                            <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    onclick="adicionarCarrinho('Cartola', 12.90)">
+                                Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+    </section>
+
+
+    <section class="cart-section container">
+        <h2>Seu carrinho</h2>
+
+        <div id="carrinho">
+            <p>Seu carrinho está vazio.</p>
+        </div>
+
+        <p class="cart-total">
+            Total: R$ <strong id="total">0,00</strong>
+        </p>
+
+        <!-- Consentimento de privacidade -->
+        <div class="consentimento">
+            <label>
+                <input type="checkbox" id="consentimento">
+                Li o aviso de privacidade e concordo com o uso dos meus
+                dados para processar este pedido.
+            </label>
+        </div>
+
+        <!-- Botão para finalizar o pedido -->
+        <button
+                type="button"
+                class="btn btn-primary"
+                onclick="finalizarPedido()">
+            Finalizar pedido
+        </button>
+    </section>
+
+    <div class="menu-back container">
+        <a href="index.html">← Voltar para o início</a>
+    </div>
+
+</main>
+
+<footer class="footer">
+    <div class="container footer-container">
+        <div>
+            <strong>Raízes do Nordeste</strong>
+            <p>Sabores regionais e experiência digital.</p>
+        </div>
+        <p>Projeto acadêmico — Front-End</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

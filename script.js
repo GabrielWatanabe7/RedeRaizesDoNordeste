@@ -172,34 +172,78 @@ function mostrarRecompensa() {
 }
 
 
+
 // FINALIZAR PEDIDO
 
 function finalizarPedido() {
+    const consentimento = document.getElementById("consentimento");
 
-    const consentimento =
-        document.getElementById("consentimento");
-
+    if (!consentimento) {
+        alert("Não foi encontrado o campo de consentimento.");
+        return;
+    }
 
     if (!consentimento.checked) {
-
-        alert(
-            "É necessário aceitar o uso dos dados para continuar."
-        );
-
+        alert("É necessário aceitar o uso dos dados para continuar.");
         return;
     }
-
 
     if (carrinho.length === 0) {
-
         alert("Adicione pelo menos um item ao pedido.");
-
         return;
     }
 
+    alert("Pedido enviado com sucesso! Pagamento demonstrativo.");
+}
 
-    alert(
-        "Pedido enviado com sucesso! Pagamento demonstrativo."
-    );
+// EXIBIR A UNIDADE SELECIONADA NO CARDÁPIO
 
+document.addEventListener("DOMContentLoaded", function () {
+    const nomeUnidade = document.getElementById("nome-unidade");
+
+    if (nomeUnidade) {
+        const unidade = localStorage.getItem("unidadeSelecionada");
+
+        nomeUnidade.textContent = unidade || "Selecione uma unidade";
+    }
+});
+
+function selecionarUnidade(nomeUnidade) {
+    localStorage.setItem("unidadeSelecionada", nomeUnidade);
+}
+
+function mostrarUnidadeSelecionada() {
+    const nomeUnidade = localStorage.getItem("unidadeSelecionada");
+    const elemento = document.getElementById("nome-unidade");
+
+    if (elemento && nomeUnidade) {
+        elemento.textContent = nomeUnidade;
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    mostrarUnidadeSelecionada();
+    filtrarProdutosPorUnidade();
+});
+
+
+function filtrarProdutosPorUnidade() {
+    const unidade = localStorage.getItem("unidadeSelecionada");
+    const produtos = document.querySelectorAll(".product-card");
+
+    produtos.forEach(function(produto) {
+        const unidades = produto.dataset.unidades;
+
+        if (!unidade || !unidades) {
+            produto.style.display = "";
+            return;
+        }
+
+        const unidadesDisponiveis = unidades.split(",").map(function(nome) {
+            return nome.trim();
+        });
+
+        produto.style.display =
+            unidadesDisponiveis.includes(unidade) ? "" : "none";
+    });
 }

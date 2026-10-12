@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Unidades | Raízes do Nordeste</title>
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="container header-container">
+
+        <a href="index.html" class="logo">
+            <div class="logo-icon">RN</div>
+            <div class="logo-text">
+                <strong>Raízes do Nordeste</strong>
+                <span>Sabores regionais com pedido digital</span>
+            </div>
+        </a>
+
+        <nav class="menu">
+            <a href="fidelidade.html">Fidelidade</a>
+            <a href="unidades.html">Unidades</a>
+            <a href="cardapio.html">Cardápio</a>
+            <a href="perfil.html">Minha conta</a>
+        </nav>
+
+    </div>
+</header>
+
+<main class="units-page">
+    <section class="units-intro container">
+        <span class="eyebrow">ENCONTRE A SUA UNIDADE</span>
+        <h1>Onde você quer pedir?</h1>
+        <p>
+            Escolha uma unidade para consultar as opções disponíveis
+            e continuar seu pedido.
+        </p>
+
+        <div class="units-grid">
+
+            <article class="unit-card">
+                <span class="unit-tag">UNIDADE 01</span>
+                <h2>São Bernardo do Campo</h2>
+                <p>Consulte o cardápio e as opções desta unidade.</p>
+                <a href="cardapio.html"
+                   class="btn btn-primary"
+                   onclick="selecionarUnidade('São Bernardo do Campo')">
+                    Escolher unidade
+                </a>
+            </article>
+
+            <article class="unit-card">
+                <span class="unit-tag">UNIDADE 02</span>
+                <h2>Santo André</h2>
+                <p>Veja os pratos disponíveis e comece seu pedido.</p>
+                <a href="cardapio.html"
+                   class="btn btn-primary"
+                   onclick="selecionarUnidade('Santo André')">
+                    Escolher unidade
+                </a>
+            </article>
+
+            <article class="unit-card">
+                <span class="unit-tag">UNIDADE 03</span>
+                <h2>São Paulo</h2>
+                <p>Escolha esta unidade para continuar a navegação.</p>
+                <a href="cardapio.html"
+                   class="btn btn-primary"
+                   onclick="selecionarUnidade('São Paulo')">
+                    Escolher unidade
+                </a>
+            </article>
+
+        </div>
+
+        <a href="index.html" class="back-link">← Voltar para o início</a>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container footer-container">
+        <div>
+            <strong>Raízes do Nordeste</strong>
+            <p>Sabores regionais e experiência digital.</p>
+        </div>
+        <p>Projeto acadêmico — Front-End</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
