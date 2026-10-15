@@ -172,28 +172,35 @@ function mostrarRecompensa() {
 }
 
 
+// Finalizar Pedido
 
-// FINALIZAR PEDIDO
+function finalizarPedido(event) {
+    event.preventDefault();
 
-function finalizarPedido() {
     const consentimento = document.getElementById("consentimento");
-
-    if (!consentimento) {
-        alert("Não foi encontrado o campo de consentimento.");
-        return;
-    }
-
-    if (!consentimento.checked) {
-        alert("É necessário aceitar o uso dos dados para continuar.");
-        return;
-    }
+    const formulario = document.getElementById("form-pedido");
 
     if (carrinho.length === 0) {
         alert("Adicione pelo menos um item ao pedido.");
         return;
     }
 
-    alert("Pedido enviado com sucesso! Pagamento demonstrativo.");
+    if (!formulario.checkValidity()) {
+        formulario.reportValidity();
+        return;
+    }
+
+    if (!consentimento.checked) {
+        alert("É necessário aceitar o aviso de privacidade.");
+        return;
+    }
+
+    alert("Pedido confirmado! Pagamento demonstrativo, sem cobrança real.");
+
+    // Limpa o carrinho após a confirmação demonstrativa.
+    carrinho.length = 0;
+    atualizarCarrinho();
+    formulario.reset();
 }
 
 // EXIBIR A UNIDADE SELECIONADA NO CARDÁPIO

@@ -1,10 +1,9 @@
-Depois, monte a página com esta estrutura inicial:
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Cardápio | Raízes do Nordeste</title>
 
     <link rel="stylesheet" href="style.css">
@@ -40,9 +39,12 @@ Depois, monte a página com esta estrutura inicial:
 
 <main class="menu-page">
 
+    <!-- INTRODUÇÃO -->
     <section class="menu-intro container">
         <span class="eyebrow">SABORES DA NOSSA TERRA</span>
+
         <h1>Nosso cardápio</h1>
+
         <p>
             Receitas inspiradas na tradição nordestina,
             preparadas para deixar seu pedido ainda mais especial.
@@ -55,6 +57,7 @@ Depois, monte a página com esta estrutura inicial:
         </div>
     </section>
 
+    <!-- PRODUTOS -->
     <section class="menu-products container">
 
         <nav class="category-nav" aria-label="Categorias do cardápio">
@@ -63,22 +66,28 @@ Depois, monte a página com esta estrutura inicial:
             <a href="#sobremesas">Sobremesas</a>
         </nav>
 
+        <!-- PRATOS PRINCIPAIS -->
         <section id="pratos" class="product-section">
             <h2>Pratos principais</h2>
 
             <div class="product-grid">
 
-                <article class="product-card" data-unidades="São Bernardo do Campo,Santo André">
+                <article class="product-card"
+                         data-unidades="São Bernardo do Campo,Santo André">
+
                     <div class="product-image">🍲</div>
 
                     <div class="product-info">
                         <h3>Baião de dois</h3>
-                        <p>Arroz, feijão, queijo coalho e temperos regionais.</p>
+
+                        <p>
+                            Arroz, feijão, queijo coalho e temperos regionais.
+                        </p>
 
                         <div class="product-bottom">
-                            <strong>R$28,90</strong>
-                            <button
-                                    type="button"
+                            <strong>R$ 28,90</strong>
+
+                            <button type="button"
                                     class="btn btn-primary"
                                     onclick="adicionarCarrinho('Baião de dois', 28.90)">
                                 Adicionar
@@ -87,17 +96,22 @@ Depois, monte a página com esta estrutura inicial:
                     </div>
                 </article>
 
-                <article class="product-card" data-unidades="São Bernardo do Campo,Santo André,São Paulo">
+                <article class="product-card"
+                         data-unidades="São Bernardo do Campo,Santo André,São Paulo">
+
                     <div class="product-image">🍛</div>
 
                     <div class="product-info">
                         <h3>Carne de sol</h3>
-                        <p>Carne de sol acompanhada de guarnições regionais.</p>
+
+                        <p>
+                            Carne de sol acompanhada de guarnições regionais.
+                        </p>
 
                         <div class="product-bottom">
-                            <strong>R$34,90</strong>
-                            <button
-                                    type="button"
+                            <strong>R$ 34,90</strong>
+
+                            <button type="button"
                                     class="btn btn-primary"
                                     onclick="adicionarCarrinho('Carne de sol', 34.90)">
                                 Adicionar
@@ -106,17 +120,22 @@ Depois, monte a página com esta estrutura inicial:
                     </div>
                 </article>
 
-                <article class="product-card" data-unidades="São Bernardo do Campo,Santo André,São Paulo">
+                <article class="product-card"
+                         data-unidades="São Bernardo do Campo,Santo André,São Paulo">
+
                     <div class="product-image">🍗</div>
 
                     <div class="product-info">
                         <h3>Frango com baião</h3>
-                        <p>Frango temperado servido com baião de dois.</p>
+
+                        <p>
+                            Frango temperado servido com baião de dois.
+                        </p>
 
                         <div class="product-bottom">
-                            <strong>R$31,90</strong>
-                            <button
-                                    type="button"
+                            <strong>R$ 31,90</strong>
+
+                            <button type="button"
                                     class="btn btn-primary"
                                     onclick="adicionarCarrinho('Frango com baião', 31.90)">
                                 Adicionar
@@ -128,22 +147,28 @@ Depois, monte a página com esta estrutura inicial:
             </div>
         </section>
 
+        <!-- BEBIDAS -->
         <section id="bebidas" class="product-section">
             <h2>Bebidas</h2>
 
             <div class="product-grid">
 
-                <article class="product-card" data-unidades="São Bernardo do Campo,Santo André,São Paulo">
+                <article class="product-card"
+                         data-unidades="São Bernardo do Campo,Santo André,São Paulo">
+
                     <div class="product-image">🥤</div>
 
                     <div class="product-info">
                         <h3>Refrigerante</h3>
-                        <p>Refrigerante gelado para acompanhar seu prato.</p>
+
+                        <p>
+                            Refrigerante gelado para acompanhar seu prato.
+                        </p>
 
                         <div class="product-bottom">
-                            <strong>R$6,00</strong>
-                            <button
-                                    type="button"
+                            <strong>R$ 6,00</strong>
+
+                            <button type="button"
                                     class="btn btn-primary"
                                     onclick="adicionarCarrinho('Refrigerante', 6.00)">
                                 Adicionar
@@ -152,17 +177,22 @@ Depois, monte a página com esta estrutura inicial:
                     </div>
                 </article>
 
-                <article class="product-card" data-unidades="São Bernardo do Campo,Santo André,São Paulo">
+                <article class="product-card"
+                         data-unidades="São Bernardo do Campo,Santo André,São Paulo">
+
                     <div class="product-image">🍹</div>
 
                     <div class="product-info">
                         <h3>Suco de maracujá</h3>
-                        <p>Uma opção refrescante para sua refeição.</p>
+
+                        <p>
+                            Uma opção refrescante para sua refeição.
+                        </p>
 
                         <div class="product-bottom">
-                            <strong>R$8,00</strong>
-                            <button
-                                    type="button"
+                            <strong>R$ 8,00</strong>
+
+                            <button type="button"
                                     class="btn btn-primary"
                                     onclick="adicionarCarrinho('Suco de maracujá', 8.00)">
                                 Adicionar
@@ -174,22 +204,28 @@ Depois, monte a página com esta estrutura inicial:
             </div>
         </section>
 
+        <!-- SOBREMESAS -->
         <section id="sobremesas" class="product-section">
             <h2>Sobremesas</h2>
 
             <div class="product-grid">
 
-                <article class="product-card" data-unidades="São Bernardo do Campo,Santo André,São Paulo">
+                <article class="product-card"
+                         data-unidades="São Bernardo do Campo,Santo André,São Paulo">
+
                     <div class="product-image">🍌</div>
 
                     <div class="product-info">
                         <h3>Cartola</h3>
-                        <p>Banana, queijo e um toque de canela.</p>
+
+                        <p>
+                            Banana, queijo e um toque de canela.
+                        </p>
 
                         <div class="product-bottom">
-                            <strong>R$12,90</strong>
-                            <button
-                                    type="button"
+                            <strong>R$ 12,90</strong>
+
+                            <button type="button"
                                     class="btn btn-primary"
                                     onclick="adicionarCarrinho('Cartola', 12.90)">
                                 Adicionar
@@ -203,34 +239,160 @@ Depois, monte a página com esta estrutura inicial:
 
     </section>
 
+    <!-- CARRINHO E FINALIZAÇÃO NO MESMO CARTÃO -->
+    <section class="checkout-section container">
+        <div class="checkout-card">
 
-    <section class="cart-section container">
-        <h2>Seu carrinho</h2>
+            <span class="eyebrow">SEU PEDIDO</span>
 
-        <div id="carrinho">
-            <p>Seu carrinho está vazio.</p>
+            <h2>Confira e finalize seu pedido</h2>
+
+            <p class="checkout-description">
+                Confira os itens, informe seus dados e escolha como deseja pagar.
+            </p>
+
+            <!-- CARRINHO -->
+            <div class="checkout-cart">
+                <h3>Seu carrinho</h3>
+
+                <div id="carrinho">
+                    <p>Seu carrinho está vazio.</p>
+                </div>
+
+                <p class="cart-total">
+                    Total: R$ <strong id="total">0,00</strong>
+                </p>
+            </div>
+
+            <!-- FORMULÁRIO -->
+            <form id="form-pedido" onsubmit="finalizarPedido(event)">
+
+                <div class="checkout-grid">
+
+                    <div class="form-group">
+                        <label for="nome-cliente">Nome do responsável</label>
+
+                        <input
+                                type="text"
+                                id="nome-cliente"
+                                name="nome-cliente"
+                                placeholder="Seu nome completo"
+                                autocomplete="name"
+                                required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email-cliente">E-mail para recibo</label>
+
+                        <input
+                                type="email"
+                                id="email-cliente"
+                                name="email-cliente"
+                                placeholder="seuemail@exemplo.com"
+                                autocomplete="email"
+                                required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefone-cliente">Telefone de contato</label>
+
+                        <input
+                                type="tel"
+                                id="telefone-cliente"
+                                name="telefone-cliente"
+                                placeholder="(11) 99999-9999"
+                                autocomplete="tel"
+                                required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="observacoes">Observações do pedido</label>
+
+                        <textarea
+                                id="observacoes"
+                                name="observacoes"
+                                placeholder="Ex.: sem pimenta, retirar às 19h"
+                                rows="4"
+                        ></textarea>
+                    </div>
+
+                </div>
+
+                <!-- PAGAMENTO -->
+                <fieldset class="payment-group">
+                    <legend>Método de pagamento</legend>
+
+                    <label class="payment-option">
+                        <input
+                                type="radio"
+                                name="pagamento"
+                                value="Pix"
+                                required
+                        >
+                        <span>Pix</span>
+                    </label>
+
+                    <label class="payment-option">
+                        <input
+                                type="radio"
+                                name="pagamento"
+                                value="Cartão"
+                        >
+                        <span>Cartão</span>
+                    </label>
+
+                    <label class="payment-option">
+                        <input
+                                type="radio"
+                                name="pagamento"
+                                value="Vale-refeição"
+                        >
+                        <span>Vale-refeição</span>
+                    </label>
+                </fieldset>
+
+                <!-- AVISO DE INTEGRAÇÃO -->
+                <div class="integration-notice">
+                    <h3>Integração externa</h3>
+
+                    <p>
+                        O pagamento será apresentado em modo demonstrativo.
+                        Nenhuma cobrança real será realizada.
+                    </p>
+
+                    <ul>
+                        <li>Ambiente de simulação sem cobrança real.</li>
+                        <li>Confira as informações antes de confirmar o pedido.</li>
+                    </ul>
+                </div>
+
+                <!-- ÚNICO CONSENTIMENTO LGPD -->
+                <div class="privacy-consent">
+                    <label for="consentimento">
+                        <input
+                                type="checkbox"
+                                id="consentimento"
+                                name="consentimento"
+                                required
+                        >
+                        Li o aviso de privacidade e estou ciente do uso dos
+                        meus dados para processar este pedido.
+                    </label>
+                </div>
+
+                <!-- CONFIRMAÇÃO -->
+                <button
+                        type="submit"
+                        class="btn btn-primary checkout-button">
+                    Confirmar pedido
+                </button>
+
+            </form>
+
         </div>
-
-        <p class="cart-total">
-            Total: R$ <strong id="total">0,00</strong>
-        </p>
-
-        <!-- Consentimento de privacidade -->
-        <div class="consentimento">
-            <label>
-                <input type="checkbox" id="consentimento">
-                Li o aviso de privacidade e concordo com o uso dos meus
-                dados para processar este pedido.
-            </label>
-        </div>
-
-        <!-- Botão para finalizar o pedido -->
-        <button
-                type="button"
-                class="btn btn-primary"
-                onclick="finalizarPedido()">
-            Finalizar pedido
-        </button>
     </section>
 
     <div class="menu-back container">
@@ -241,11 +403,14 @@ Depois, monte a página com esta estrutura inicial:
 
 <footer class="footer">
     <div class="container footer-container">
+
         <div>
             <strong>Raízes do Nordeste</strong>
             <p>Sabores regionais e experiência digital.</p>
         </div>
+
         <p>Projeto acadêmico — Front-End</p>
+
     </div>
 </footer>
 
