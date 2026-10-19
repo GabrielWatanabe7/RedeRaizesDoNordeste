@@ -387,6 +387,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     configurarCadastroLogin();
     atualizarPerfilUsuario();
+    atualizarDadosClientePedido();
 });
 
 function obterPedidos() {
@@ -722,7 +723,10 @@ function configurarCadastroLogin() {
     const formularioCadastro = document.getElementById("form-cadastro");
     const formularioLogin = document.getElementById("form-login");
 
-    if (formularioCadastro) {
+    // Cadastro de usuário
+    if (formularioCadastro && !formularioCadastro.dataset.configurado) {
+        formularioCadastro.dataset.configurado = "true";
+
         formularioCadastro.addEventListener("submit", function(event) {
             event.preventDefault();
 
@@ -730,6 +734,8 @@ function configurarCadastroLogin() {
             const email = document.getElementById("cadastro-email").value.trim().toLowerCase();
             const senha = document.getElementById("cadastro-senha").value;
             const mensagem = document.getElementById("mensagem-cadastro");
+
+            mensagem.textContent = "";
 
             if (!nome || !email || !senha) {
                 mensagem.textContent = "Preencha todos os campos.";
@@ -741,14 +747,26 @@ function configurarCadastroLogin() {
                 return;
             }
 
-            const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+            let usuarios;
+
+            try {
+                usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+            } catch (erro) {
+                mensagem.textContent = "Não foi possível consultar os cadastros salvos.";
+                return;
+            }
+
+            if (!Array.isArray(usuarios)) {
+                mensagem.textContent = "Os dados de cadastro estão inválidos.";
+                return;
+            }
 
             const emailExiste = usuarios.some(function(usuario) {
-                return usuario.email === email;
+                return usuario.email.toLowerCase() === email;
             });
 
             if (emailExiste) {
-                mensagem.textContent = "Este e-mail já está cadastrado.";
+                mensagem.textContent = "Este e-mail já está cadastrado. Faça login.";
                 return;
             }
 
@@ -760,12 +778,15 @@ function configurarCadastroLogin() {
 
             localStorage.setItem("usuarios", JSON.stringify(usuarios));
 
-            mensagem.textContent = "Cadastro realizado! Agora você pode entrar.";
+            mensagem.textContent = "Cadastro realizado com sucesso! Agora faça login.";
             formularioCadastro.reset();
         });
     }
 
-    if (formularioLogin) {
+    // Login de usuário
+    if (formularioLogin && !formularioLogin.dataset.configurado) {
+        formularioLogin.dataset.configurado = "true";
+
         formularioLogin.addEventListener("submit", function(event) {
             event.preventDefault();
 
@@ -773,10 +794,24 @@ function configurarCadastroLogin() {
             const senha = document.getElementById("login-senha").value;
             const mensagem = document.getElementById("mensagem-login");
 
-            const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+            mensagem.textContent = "";
+
+            let usuarios;
+
+            try {
+                usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+            } catch (erro) {
+                mensagem.textContent = "Não foi possível consultar os cadastros salvos.";
+                return;
+            }
+
+            if (!Array.isArray(usuarios)) {
+                mensagem.textContent = "Os dados de cadastro estão inválidos.";
+                return;
+            }
 
             const usuarioEncontrado = usuarios.find(function(usuario) {
-                return usuario.email === email && usuario.senha === senha;
+                return usuario.email.toLowerCase() === email && usuario.senha === senha;
             });
 
             if (!usuarioEncontrado) {
@@ -789,8 +824,8 @@ function configurarCadastroLogin() {
                 email: usuarioEncontrado.email
             }));
 
-            mensagem.textContent = "Login realizado com sucesso!";
             formularioLogin.reset();
+
             atualizarPerfilUsuario();
         });
     }
@@ -801,19 +836,47 @@ function atualizarPerfilUsuario() {
     const nomeUsuario = document.getElementById("nome-usuario");
     const emailUsuario = document.getElementById("email-usuario");
     const botaoSair = document.getElementById("botao-sair");
+    const areaFormularios = document.querySelector(".perfil-container");
+    const mensagemCadastro = document.getElementById("mensagem-cadastro");
+    const mensagemLogin = document.getElementById("mensagem-login");
 
     if (!areaPerfil || !nomeUsuario || !emailUsuario) {
         return;
     }
 
-    const dados = localStorage.getItem("usuarioLogado");
-    const usuario = dados ? JSON.parse(dados) : null;
+    let usuario = null;
 
-    areaPerfil.hidden = !usuario;
+    try {
+        const dados = localStorage.getItem("usuarioLogado");
+        usuario = dados ? JSON.parse(dados) : null;
+    } catch (erro) {
+        localStorage.removeItem("usuarioLogado");
+    }
 
-    if (usuario) {
+    const usuarioValido = usuario &&
+        typeof usuario.nome === "string" &&
+        typeof usuario.email === "string";
+
+    areaPerfil.hidden = !usuarioValido;
+
+    if (areaFormularios) {
+        areaFormularios.hidden = Boolean(usuarioValido);
+    }
+
+    if (usuarioValido) {
         nomeUsuario.textContent = usuario.nome;
         emailUsuario.textContent = usuario.email;
+    } else {
+        nomeUsuario.textContent = "";
+        emailUsuario.textContent = "";
+    }
+
+    if (mensagemCadastro) {
+        mensagemCadastro.textContent = "";
+    }
+
+    if (mensagemLogin) {
+        mensagemLogin.textContent = "";
     }
 
     if (botaoSair && !botaoSair.dataset.configurado) {
@@ -823,10 +886,56 @@ function atualizarPerfilUsuario() {
             localStorage.removeItem("usuarioLogado");
             atualizarPerfilUsuario();
 
-            const mensagemLogin = document.getElementById("mensagem-login");
             if (mensagemLogin) {
                 mensagemLogin.textContent = "Você saiu da sua conta.";
             }
         });
+    }
+}
+
+function atualizarDadosClientePedido() {
+    const dadosSalvos = localStorage.getItem("usuarioLogado");
+
+    const campoNome = document.getElementById("nome-cliente");
+    const campoEmail = document.getElementById("email-cliente");
+    const grupoNome = document.getElementById("campo-nome-cliente");
+    const grupoEmail = document.getElementById("campo-email-cliente");
+
+    // Esta função só atua na página que contém o formulário do pedido.
+    if (!campoNome || !campoEmail) {
+        return;
+    }
+
+    let usuario = null;
+
+    try {
+        usuario = dadosSalvos ? JSON.parse(dadosSalvos) : null;
+    } catch (erro) {
+        usuario = null;
+    }
+
+    const usuarioLogadoValido = usuario &&
+        typeof usuario.nome === "string" &&
+        typeof usuario.email === "string";
+
+    if (usuarioLogadoValido) {
+        campoNome.value = usuario.nome;
+        campoEmail.value = usuario.email;
+
+        // Não pede novamente dados que já estão na conta.
+        campoNome.required = false;
+        campoEmail.required = false;
+
+        if (grupoNome) grupoNome.hidden = true;
+        if (grupoEmail) grupoEmail.hidden = true;
+    } else {
+        campoNome.value = "";
+        campoEmail.value = "";
+
+        campoNome.required = true;
+        campoEmail.required = true;
+
+        if (grupoNome) grupoNome.hidden = false;
+        if (grupoEmail) grupoEmail.hidden = false;
     }
 }
