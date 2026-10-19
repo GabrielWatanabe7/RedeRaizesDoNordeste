@@ -36,8 +36,12 @@ function aplicarPromocaoDaUrl() {
         "cartola": {
             nome: "Cartola",
             preco: 9.90
-        }
-    };
+        },
+        "combo-nordestino": {
+            nome: "Combo Nordestino",
+            preco: 42.90
+    }
+};
 
     if (!promocao || !promocoes[promocao]) {
         return;
@@ -405,22 +409,28 @@ function exibirPedidos() {
     const dadosUsuario = localStorage.getItem("usuarioLogado");
 
     if (!dadosUsuario) {
-        lista.textContent = "Entre na sua conta para visualizar seus pedidos.";
+        lista.textContent =
+            "Entre na sua conta para visualizar seus pedidos.";
         return;
     }
 
     const usuarioLogado = JSON.parse(dadosUsuario);
-
     const todosPedidos = obterPedidos();
 
-    const pedidos = todosPedidos.filter(function(pedido) {
-        return pedido.clienteEmail &&
-            pedido.clienteEmail.toLowerCase() ===
-            usuarioLogado.email.toLowerCase();
-    });
+    const pedidos = todosPedidos
+        .filter(function(pedido) {
+            return pedido.clienteEmail &&
+                usuarioLogado.email &&
+                pedido.clienteEmail.toLowerCase() ===
+                usuarioLogado.email.toLowerCase();
+        })
+        .sort(function(a, b) {
+            return Number(b.id) - Number(a.id);
+        });
 
     if (pedidos.length === 0) {
-        lista.textContent = "Você ainda não realizou nenhum pedido.";
+        lista.textContent =
+            "Você ainda não realizou nenhum pedido.";
         return;
     }
 
@@ -444,14 +454,31 @@ function exibirPedidos() {
         const unidade = document.createElement("p");
         unidade.textContent = "Unidade: " + pedido.unidade;
 
-        const itens = document.createElement("p");
-        itens.textContent = "Itens: " + pedido.itens.map(function(item) {
-            return item.nome + " (R$ " +
-                Number(item.preco).toFixed(2).replace(".", ",") + ")";
-        }).join(", ");
+        const detalhes = document.createElement("details");
+        detalhes.className = "order-details";
+
+        const resumo = document.createElement("summary");
+        resumo.textContent = "Ver detalhes do pedido";
+
+        const listaItens = document.createElement("ul");
+        listaItens.className = "order-items";
+
+        (pedido.itens || []).forEach(function(item) {
+            const linha = document.createElement("li");
+
+            linha.textContent =
+                item.nome + " — R$ " +
+                Number(item.preco).toFixed(2).replace(".", ",");
+
+            listaItens.appendChild(linha);
+        });
+
+        detalhes.append(resumo, listaItens);
 
         const total = document.createElement("p");
-        total.textContent = "Total: R$ " +
+        total.className = "order-total";
+        total.textContent =
+            "Total: R$ " +
             Number(pedido.total).toFixed(2).replace(".", ",");
 
         const tituloStatus = document.createElement("h3");
@@ -480,7 +507,9 @@ function exibirPedidos() {
             const marcador = document.createElement("span");
             marcador.className = "order-step-marker";
             marcador.textContent =
-                etapaValida && indice < statusAtual ? "✓" : String(indice + 1);
+                etapaValida && indice < statusAtual
+                    ? "✓"
+                    : String(indice + 1);
 
             const nomeEtapa = document.createElement("span");
             nomeEtapa.className = "order-step-label";
@@ -501,7 +530,7 @@ function exibirPedidos() {
             botao.textContent = "Status inválido";
             botao.disabled = true;
         } else {
-            botao.textContent = "Avançar status";
+            botao.textContent = "Avançar status (simulação)";
             botao.addEventListener("click", function() {
                 atualizarStatusPedido(pedido.id);
             });
@@ -511,7 +540,7 @@ function exibirPedidos() {
             titulo,
             data,
             unidade,
-            itens,
+            detalhes,
             total,
             tituloStatus,
             status,
