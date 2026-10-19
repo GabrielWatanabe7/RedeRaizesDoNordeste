@@ -1779,3 +1779,361 @@ img {
     font-weight: 700;
     margin-top: 16px;
 }
+
+/* =========================================
+   LINK DO AVISO DE PRIVACIDADE NO CHECKOUT
+   ========================================= */
+
+.privacy-consent a {
+    color: #b45309;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+.privacy-consent a:hover {
+    color: #78350f;
+}
+
+.privacy-consent a:focus-visible {
+    outline: 2px solid #b45309;
+    outline-offset: 3px;
+    border-radius: 3px;
+}
+
+
+/* =========================================
+   PÁGINA DE AVISO DE PRIVACIDADE
+   ========================================= */
+
+.pagina-privacidade {
+    margin: 0;
+    min-height: 100vh;
+    background: #f5f3ec;
+    color: #29352b;
+    font-family: 'Poppins', Arial, sans-serif;
+    line-height: 1.75;
+}
+
+.pagina-privacidade *,
+.pagina-privacidade *::before,
+.pagina-privacidade *::after {
+    box-sizing: border-box;
+}
+
+.pagina-privacidade .privacidade-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 20px clamp(20px, 6vw, 88px);
+    background: #fff;
+    border-bottom: 1px solid #e7e8df;
+}
+
+.pagina-privacidade .privacidade-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #254d35;
+    text-decoration: none;
+}
+
+.pagina-privacidade .logo-simbolo {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background: #28583b;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.pagina-privacidade .privacidade-logo strong,
+.pagina-privacidade .privacidade-logo small {
+    display: block;
+}
+
+.pagina-privacidade .privacidade-logo strong {
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.pagina-privacidade .privacidade-logo small {
+    color: #777e70;
+    font-size: 12px;
+}
+
+.pagina-privacidade .privacidade-voltar-topo {
+    color: #28583b;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.pagina-privacidade .privacidade-voltar-topo:hover,
+.pagina-privacidade .privacidade-link-inicio:hover {
+    text-decoration: underline;
+}
+
+.pagina-privacidade .privacidade-container {
+    width: min(900px, calc(100% - 36px));
+    margin: 0 auto;
+    padding: 58px 0 64px;
+}
+
+.pagina-privacidade .privacidade-intro {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.pagina-privacidade .privacidade-etiqueta {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 6px 12px;
+    border: 1px solid #d7e4d5;
+    border-radius: 999px;
+    background: #eaf1e7;
+    color: #28583b;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+}
+
+.pagina-privacidade .privacidade-intro h1 {
+    margin: 0 0 14px;
+    color: #234a32;
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(34px, 5vw, 48px);
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.pagina-privacidade .privacidade-intro p {
+    max-width: 620px;
+    margin: 0 auto;
+    color: #687064;
+    font-size: 15px;
+}
+
+.pagina-privacidade .privacidade-card {
+    overflow: hidden;
+    padding: clamp(22px, 5vw, 48px);
+    border: 1px solid #e7e8df;
+    border-radius: 22px;
+    background: #fff;
+    box-shadow: 0 14px 40px rgb(39 55 37 / 7%);
+}
+
+.pagina-privacidade .privacidade-aviso {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 34px;
+    padding: 18px;
+    border: 1px solid #dce8d8;
+    border-radius: 14px;
+    background: #f2f7ef;
+}
+
+.pagina-privacidade .privacidade-icone {
+    display: grid;
+    place-items: center;
+    width: 27px;
+    height: 27px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #28583b;
+    color: #fff;
+    font-weight: 700;
+}
+
+.pagina-privacidade .privacidade-aviso p {
+    margin: 0;
+    color: #425443;
+    font-size: 13px;
+}
+
+.pagina-privacidade .privacidade-secao {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 18px;
+    padding: 25px 0;
+    border-bottom: 1px solid #eceee7;
+}
+
+.pagina-privacidade .privacidade-numero {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: #f0f3e9;
+    color: #386044;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.pagina-privacidade .privacidade-secao h2 {
+    margin: 2px 0 9px;
+    color: #2b5036;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.pagina-privacidade .privacidade-secao p {
+    margin: 0 0 10px;
+    color: #60675d;
+    font-size: 14px;
+}
+
+.pagina-privacidade .privacidade-secao p:last-child {
+    margin-bottom: 0;
+}
+
+.pagina-privacidade .privacidade-rodape-card {
+    margin-top: 26px;
+    padding-top: 24px;
+    color: #788071;
+    font-size: 13px;
+    font-style: italic;
+    text-align: center;
+}
+
+.pagina-privacidade .privacidade-acoes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 22px;
+    margin-top: 28px;
+}
+
+.pagina-privacidade .privacidade-botao {
+    display: inline-block;
+    padding: 13px 24px;
+    border: 1px solid #28583b;
+    border-radius: 10px;
+    background: #28583b;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.pagina-privacidade .privacidade-botao:hover {
+    transform: translateY(-1px);
+    background: #1e442d;
+}
+
+.pagina-privacidade .privacidade-link-inicio {
+    color: #28583b;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.pagina-privacidade .privacidade-footer {
+    padding: 22px 18px;
+    border-top: 1px solid #e5e6dc;
+    background: #fff;
+    text-align: center;
+}
+
+.pagina-privacidade .privacidade-footer p {
+    margin: 0;
+    color: #7b8075;
+    font-size: 12px;
+}
+
+
+/* =========================================
+   RESPONSIVIDADE PARA CELULARES
+   ========================================= */
+
+@media (max-width: 600px) {
+    .pagina-privacidade .privacidade-header {
+        padding: 16px;
+    }
+
+    .pagina-privacidade .privacidade-logo {
+        gap: 9px;
+    }
+
+    .pagina-privacidade .logo-simbolo {
+        width: 40px;
+        height: 40px;
+        border-radius: 11px;
+        font-size: 14px;
+    }
+
+    .pagina-privacidade .privacidade-logo strong {
+        font-size: 13px;
+    }
+
+    .pagina-privacidade .privacidade-logo small {
+        font-size: 10px;
+    }
+
+    .pagina-privacidade .privacidade-voltar-topo {
+        max-width: 100px;
+        font-size: 12px;
+        text-align: right;
+    }
+
+    .pagina-privacidade .privacidade-container {
+        padding-top: 38px;
+        padding-bottom: 42px;
+    }
+
+    .pagina-privacidade .privacidade-intro {
+        margin-bottom: 24px;
+    }
+
+    .pagina-privacidade .privacidade-intro p {
+        font-size: 14px;
+    }
+
+    .pagina-privacidade .privacidade-card {
+        padding: 20px 17px;
+        border-radius: 16px;
+    }
+
+    .pagina-privacidade .privacidade-secao {
+        grid-template-columns: 32px minmax(0, 1fr);
+        gap: 12px;
+        padding: 21px 0;
+    }
+
+    .pagina-privacidade .privacidade-numero {
+        width: 31px;
+        height: 31px;
+        border-radius: 9px;
+        font-size: 11px;
+    }
+
+    .pagina-privacidade .privacidade-secao h2 {
+        font-size: 16px;
+    }
+
+    .pagina-privacidade .privacidade-secao p {
+        font-size: 13px;
+    }
+
+    .pagina-privacidade .privacidade-acoes {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .pagina-privacidade .privacidade-botao {
+        width: 100%;
+    }
+}
