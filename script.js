@@ -331,8 +331,6 @@ function finalizarPedido(event) {
         return soma + item.preco;
     }, 0);
 
-    const pontosGanhos = adicionarPontos(total);
-
     const novoPedido = {
         id: Date.now(),
         clienteEmail: usuarioLogado.email,
@@ -349,6 +347,8 @@ function finalizarPedido(event) {
     };
 
     salvarPedido(novoPedido);
+
+    const pontosGanhos = registrarPontosDoPedido(novoPedido);
 
     const resumoPedido = carrinho.map(function(item) {
         return item.nome + " - R$ " + formatarPreco(item.preco);
@@ -640,6 +640,7 @@ function atualizarPaginaFidelidade() {
         saldoElemento.textContent = "Entre na sua conta";
         estadoElemento.textContent = "Faça login para consultar seus pontos.";
         botao.disabled = true;
+        botao.textContent = "Resgatar";
 
         if (mensagem) {
             mensagem.textContent = "";
@@ -648,30 +649,30 @@ function atualizarPaginaFidelidade() {
         return;
     }
 
-    const usuario = JSON.parse(dadosUsuario);
-    const email = usuario.email.toLowerCase();
-
-    const chaveRecompensa = "recompensaResgatada_" + email;
-    const recompensaResgatada =
-        localStorage.getItem(chaveRecompensa) === "true";
-
     const saldo = obterPontos();
+    const recompensasDisponiveis = Math.floor(saldo / 100);
+    const pontosRestantes = saldo % 100;
 
     saldoElemento.textContent =
         saldo + (saldo === 1 ? " ponto" : " pontos");
 
-    if (recompensaResgatada) {
-        estadoElemento.textContent = "Recompensa já resgatada";
-        botao.disabled = true;
-        botao.textContent = "Resgatada";
-    } else if (saldo >= 100) {
-        estadoElemento.textContent = "Você já pode resgatar!";
+    if (recompensasDisponiveis > 0) {
+        estadoElemento.textContent =
+            "Você pode resgatar " +
+            recompensasDisponiveis +
+            (recompensasDisponiveis === 1
+                ? " recompensa!"
+                : " recompensas!");
+
         botao.disabled = false;
-        botao.textContent = "Resgatar";
+        botao.textContent = "Resgatar recompensa";
     } else {
-        estadoElemento.textContent = "Faltam " + (100 - saldo) + " pontos";
+        estadoElemento.textContent =
+            "Faltam " + (100 - pontosRestantes) +
+            " pontos para sua próxima recompensa.";
+
         botao.disabled = true;
-        botao.textContent = "Resgatar";
+        botao.textContent = "Resgatar recompensa";
     }
 }
 
@@ -681,39 +682,55 @@ function resgatarRecompensa() {
 
     if (!dadosUsuario) {
         if (mensagem) {
-            mensagem.textContent = "Entre na sua conta para resgatar a recompensa.";
+            mensagem.textContent =
+                "Entre na sua conta para resgatar uma recompensa.";
         }
         return;
     }
 
-    const usuario = JSON.parse(dadosUsuario);
-    const email = usuario.email.toLowerCase();
+    let usuario;
 
-    const chaveRecompensa = "recompensaResgatada_" + email;
-    const saldo = obterPontos();
-
-    if (localStorage.getItem(chaveRecompensa) === "true") {
+    try {
+        usuario = JSON.parse(dadosUsuario);
+    } catch (erro) {
         if (mensagem) {
-            mensagem.textContent = "Você já resgatou esta recompensa.";
+            mensagem.textContent =
+                "Não foi possível identificar sua conta. Entre novamente.";
         }
         return;
     }
+
+    if (!usuario || !usuario.email) {
+        if (mensagem) {
+            mensagem.textContent =
+                "Não foi possível identificar sua conta. Entre novamente.";
+        }
+        return;
+    }
+
+    const email = usuario.email.toLowerCase();
+    const chavePontos = "pontosFidelidade_" + email;
+    const saldo = obterPontos();
 
     if (saldo < 100) {
         if (mensagem) {
-            mensagem.textContent = "Você precisa de 100 pontos para resgatar.";
+            mensagem.textContent =
+                "Você precisa de 100 pontos para resgatar uma recompensa.";
         }
+
+        atualizarPaginaFidelidade();
         return;
     }
 
-    const chavePontos = "pontosFidelidade_" + email;
+    const novoSaldo = saldo - 100;
 
-    localStorage.setItem(chavePontos, saldo - 100);
-    localStorage.setItem(chaveRecompensa, "true");
+    localStorage.setItem(chavePontos, novoSaldo);
 
     if (mensagem) {
         mensagem.textContent =
-            "Recompensa demonstrativa resgatada com sucesso!";
+            "Recompensa demonstrativa resgatada com sucesso! " +
+            "Você utilizou 100 pontos e ficou com " +
+            novoSaldo + (novoSaldo === 1 ? " ponto." : " pontos.");
     }
 
     atualizarPaginaFidelidade();
@@ -938,4 +955,59 @@ function atualizarDadosClientePedido() {
         if (grupoNome) grupoNome.hidden = false;
         if (grupoEmail) grupoEmail.hidden = false;
     }
+}
+
+function registrarPontosDoPedido(pedido) {
+    const dadosUsuario = localStorage.getItem("usuarioLogado");
+
+    if (!dadosUsuario || !pedido || pedido.id == null) {
+        return 0;
+    }
+
+    let usuario;
+
+    try {
+        usuario = JSON.parse(dadosUsuario);
+    } catch (erro) {
+        return 0;
+    }
+
+    if (!usuario || !usuario.email) {
+        return 0;
+    }
+
+    const email = usuario.email.toLowerCase();
+    const chavePedidos = "pedidosComPontos_" + email;
+
+    let pedidosProcessados = [];
+
+    try {
+        pedidosProcessados =
+            JSON.parse(localStorage.getItem(chavePedidos)) || [];
+    } catch (erro) {
+        pedidosProcessados = [];
+    }
+
+    // Impede que o mesmo pedido conceda pontos novamente.
+    if (pedidosProcessados.includes(String(pedido.id))) {
+        return 0;
+    }
+
+    const pontosGanhos = Math.floor(Number(pedido.total));
+
+    if (!Number.isFinite(pontosGanhos) || pontosGanhos <= 0) {
+        return 0;
+    }
+
+    // Registra o pedido antes de creditar os pontos.
+    pedidosProcessados.push(String(pedido.id));
+
+    localStorage.setItem(
+        chavePedidos,
+        JSON.stringify(pedidosProcessados)
+    );
+
+    adicionarPontos(pedido.total);
+
+    return pontosGanhos;
 }
