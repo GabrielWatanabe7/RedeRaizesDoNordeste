@@ -1,10 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Fidelidade | Raízes do Nordeste</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
 </head>
+
 <body>
+
+<header class="header">
+    <div class="container header-container">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">RN</div>
+            <div class="logo-text">
+                <strong>Raízes do Nordeste</strong>
+                <span>Sabores regionais com pedido digital</span>
+            </div>
+        </a>
+
+        <nav class="menu">
+            <a href="index.html">Início</a>
+            <a href="unidades.html">Unidades</a>
+            <a href="cardapio.html">Cardápio</a>
+            <a href="promocoes.html">Promoções</a>
+            <a href="pedido.html">Meus pedidos</a>
+            <a href="fidelidade.html">Fidelidade</a>
+            <a href="perfil.html">Minha conta</a>
+        </nav>
+
+    </div>
+</header>
+
+<main class="container loyalty-page">
+
+    <section class="loyalty-intro">
+        <span class="eyebrow">PROGRAMA DE FIDELIDADE</span>
+        <h1>Quanto mais você pede, mais você ganha!</h1>
+        <p>Acumule pontos com seus pedidos e troque por recompensas demonstrativas.</p>
+    </section>
+
+    <section class="points-card">
+        <div>
+            <span>SEU SALDO DE PONTOS</span>
+            <h2 id="saldo-pontos">0 pontos</h2>
+            <p>A cada R$ 1,00 gasto, você ganha 1 ponto.</p>
+        </div>
+        <div class="points-icon">★</div>
+    </section>
+
+    <section class="rewards-section">
+        <h2>Suas recompensas</h2>
+        <p>Junte 100 pontos para desbloquear uma recompensa demonstrativa.</p>
+
+        <article class="reward-card">
+            <div class="reward-icon">🎁</div>
+
+            <div class="reward-info">
+                <h3>Recompensa especial</h3>
+                <p>Uma recompensa fictícia para demonstrar o resgate de pontos.</p>
+                <span id="estado-recompensa">100 pontos necessários</span>
+            </div>
+
+            <button
+                    type="button"
+                    id="botao-resgatar"
+                    class="btn btn-primary"
+                    onclick="resgatarRecompensa()"
+                    disabled>
+                Resgatar
+            </button>
+        </article>
+
+        <p id="mensagem-fidelidade" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="loyalty-info">
+        <h2>Como funciona?</h2>
+        <ol>
+            <li>Escolha uma unidade e faça seu pedido.</li>
+            <li>Confirme o pedido demonstrativo para acumular pontos.</li>
+            <li>Ao atingir 100 pontos, você poderá resgatar a recompensa.</li>
+        </ol>
+        <p class="loyalty-note">
+            Este programa é uma simulação acadêmica. Os pontos e as recompensas
+            ficam salvos neste navegador e não possuem valor monetário real.
+        </p>
+    </section>
+
+</main>
+
+<footer class="footer">
+    <div class="container footer-container">
+        <div>
+            <strong>Raízes do Nordeste</strong>
+            <p>Sabores regionais e experiência digital.</p>
+        </div>
+        <p>Projeto acadêmico — Front-End</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
 
 </body>
 </html>

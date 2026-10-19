@@ -1,10 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus pedidos | Raízes do Nordeste</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
+<header class="header">
+    <div class="container header-container">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">RN</div>
+            <div class="logo-text">
+                <strong>Raízes do Nordeste</strong>
+                <span>Sabores regionais com pedido digital</span>
+            </div>
+        </a>
+
+        <nav class="menu">
+            <a href="index.html">Início</a>
+            <a href="unidades.html">Unidades</a>
+            <a href="cardapio.html">Cardápio</a>
+            <a href="promocoes.html">Promoções</a>
+            <a href="pedido.html">Meus pedidos</a>
+            <a href="fidelidade.html">Fidelidade</a>
+            <a href="perfil.html">Minha conta</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container orders-page">
+    <section class="orders-intro">
+        <span class="eyebrow">ACOMPANHE SEUS PEDIDOS</span>
+        <h1>Meus pedidos</h1>
+        <p>Consulte seus pedidos e acompanhe o andamento.</p>
+    </section>
+
+    <section id="lista-pedidos" class="orders-list">
+        <p>Carregando pedidos...</p>
+    </section>
+
+    <a href="cardapio.html" class="btn btn-primary">
+        Fazer novo pedido
+    </a>
+</main>
+
+<footer class="footer">
+    <div class="container footer-container">
+        <div>
+            <strong>Raízes do Nordeste</strong>
+            <p>Sabores regionais e experiência digital.</p>
+        </div>
+        <p>Projeto acadêmico — Front-End</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>

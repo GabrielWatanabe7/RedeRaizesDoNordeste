@@ -1,10 +1,122 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha conta | Raízes do Nordeste</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
+
+<header class="header">
+    <div class="header-container container">
+
+        <a href="index.html" class="logo">
+            <span class="logo-icon">RN</span>
+
+            <span class="logo-text">
+                <strong>Raízes do Nordeste</strong>
+                <span>Sabores regionais com pedido digital</span>
+            </span>
+        </a>
+
+        <nav class="menu">
+            <a href="index.html">Início</a>
+            <a href="unidades.html">Unidades</a>
+            <a href="cardapio.html">Cardápio</a>
+            <a href="promocoes.html">Promoções</a>
+            <a href="pedido.html">Meus pedidos</a>
+            <a href="fidelidade.html">Fidelidade</a>
+            <a href="perfil.html">Minha conta</a>
+        </nav>
+
+    </div>
+</header>
+
+<main class="perfil-page">
+    <section class="perfil-intro">
+        <h2>Minha conta</h2>
+        <p>Crie sua conta ou entre para acompanhar sua experiência.</p>
+    </section>
+
+    <section class="perfil-container">
+
+        <div class="perfil-card">
+            <h3>Criar conta</h3>
+            <p>Preencha os dados para se cadastrar.</p>
+
+            <form id="form-cadastro">
+                <label for="cadastro-nome">Nome completo</label>
+                <input
+                        type="text"
+                        id="cadastro-nome"
+                        name="nome"
+                        placeholder="Digite seu nome"
+                        required
+                >
+
+                <label for="cadastro-email">E-mail</label>
+                <input
+                        type="email"
+                        id="cadastro-email"
+                        name="email"
+                        placeholder="seuemail@exemplo.com"
+                        required
+                >
+
+                <label for="cadastro-senha">Senha</label>
+                <input
+                        type="password"
+                        id="cadastro-senha"
+                        name="senha"
+                        placeholder="Crie uma senha"
+                        minlength="6"
+                        required
+                >
+
+                <button type="submit">Criar minha conta</button>
+                <p id="mensagem-cadastro" role="status"></p>
+            </form>
+        </div>
+
+        <div class="perfil-card">
+            <h3>Já tenho uma conta</h3>
+            <p>Entre com seus dados cadastrados.</p>
+
+            <form id="form-login">
+                <label for="login-email">E-mail</label>
+                <input
+                        type="email"
+                        id="login-email"
+                        name="email"
+                        placeholder="seuemail@exemplo.com"
+                        required
+                >
+
+                <label for="login-senha">Senha</label>
+                <input
+                        type="password"
+                        id="login-senha"
+                        name="senha"
+                        placeholder="Digite sua senha"
+                        required
+                >
+
+                <button type="submit">Entrar</button>
+                <p id="mensagem-login" role="status"></p>
+            </form>
+        </div>
+
+    </section>
+
+    <section class="perfil-card perfil-usuario" id="area-perfil" hidden>
+        <h3>Olá, <span id="nome-usuario"></span>!</h3>
+        <p id="email-usuario"></p>
+        <p>Bem-vindo ao Raízes do Nordeste.</p>
+        <button type="button" id="botao-sair">Sair da conta</button>
+    </section>
+</main>
 
 </body>
 </html>

@@ -1,219 +1,217 @@
+"use strict";
+
+// ========================================
+// CARRINHO
+// ========================================
+
 let carrinho = [];
 
-
-// FILTRAR CATEGORIA
-
-function filtrarCategoria(categoria) {
-
-    const produtos = document.querySelectorAll(".produto");
-
-    produtos.forEach(function(produto) {
-
-        const categoriaProduto = produto.dataset.categoria;
-
-        if (categoria === "todos" ||
-            categoriaProduto === categoria) {
-
-            produto.style.display = "block";
-
-        } else {
-
-            produto.style.display = "none";
-
-        }
-
-    });
+function formatarPreco(valor) {
+    return valor.toFixed(2).replace(".", ",");
 }
 
-
-// ADICIONAR AO CARRINHO
-
+// Adicionar produto ao carrinho
 function adicionarCarrinho(nome, preco) {
-
     carrinho.push({
         nome: nome,
-        preco: preco
+        preco: Number(preco)
     });
 
     atualizarCarrinho();
 }
 
+function aplicarPromocaoDaUrl() {
+    const parametros = new URLSearchParams(window.location.search);
+    const promocao = parametros.get("promo");
 
-// ATUALIZAR CARRINHO
+    const promocoes = {
+        "baiao-de-dois": {
+            nome: "Baião de dois",
+            preco: 24.90
+        },
+        "frango-com-baiao": {
+            nome: "Frango com baião",
+            preco: 27.90
+        },
+        "cartola": {
+            nome: "Cartola",
+            preco: 9.90
+        }
+    };
 
-function atualizarCarrinho() {
-
-    const carrinhoElemento =
-        document.getElementById("carrinho");
-
-    const totalElemento =
-        document.getElementById("total");
-
-    if (carrinho.length === 0) {
-
-        carrinhoElemento.innerHTML =
-            "<p>Seu carrinho está vazio.</p>";
-
-        totalElemento.textContent = "0,00";
-
+    if (!promocao || !promocoes[promocao]) {
         return;
     }
 
+    const produto = promocoes[promocao];
+
+    adicionarCarrinho(produto.nome, produto.preco);
+
+    alert(
+        produto.nome + " foi adicionado ao carrinho por R$ " +
+        formatarPreco(produto.preco) + "!"
+    );
+
+    // Remove o parâmetro para evitar adicionar novamente ao atualizar a página.
+    window.history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.hash
+    );
+}
+
+// Atualizar itens e total
+function atualizarCarrinho() {
+    const carrinhoElemento = document.getElementById("carrinho");
+    const totalElemento = document.getElementById("total");
+
+    // A função também pode ser chamada em páginas sem carrinho.
+    if (!carrinhoElemento || !totalElemento) {
+        return;
+    }
 
     carrinhoElemento.innerHTML = "";
 
+    if (carrinho.length === 0) {
+        const mensagem = document.createElement("p");
+        mensagem.textContent = "Seu carrinho está vazio.";
+        carrinhoElemento.appendChild(mensagem);
+
+        totalElemento.textContent = "0,00";
+        return;
+    }
+
     let total = 0;
 
-
     carrinho.forEach(function(item, index) {
-
         total += item.preco;
 
         const div = document.createElement("div");
-
         div.classList.add("item-carrinho");
 
-        div.innerHTML = `
-            <span>${item.nome}</span>
+        const nome = document.createElement("span");
+        nome.textContent = item.nome;
 
-            <strong>
-                R$ ${item.preco.toFixed(2).replace(".", ",")}
-            </strong>
+        const preco = document.createElement("strong");
+        preco.textContent = "R$ " + formatarPreco(item.preco);
 
-            <button onclick="removerItem(${index})">
-                Remover
-            </button>
-        `;
+        const botaoRemover = document.createElement("button");
+        botaoRemover.type = "button";
+        botaoRemover.textContent = "Remover";
+        botaoRemover.classList.add("btn-remover");
+
+        botaoRemover.addEventListener("click", function() {
+            removerItem(index);
+        });
+
+        div.appendChild(nome);
+        div.appendChild(preco);
+        div.appendChild(botaoRemover);
 
         carrinhoElemento.appendChild(div);
-
     });
 
-
-    totalElemento.textContent =
-        total.toFixed(2).replace(".", ",");
+    totalElemento.textContent = formatarPreco(total);
 }
 
-
-// REMOVER ITEM
-
+// Remover produto do carrinho
 function removerItem(index) {
+    if (index < 0 || index >= carrinho.length) {
+        return;
+    }
 
     carrinho.splice(index, 1);
-
     atualizarCarrinho();
 }
 
+// ========================================
+// FILTRO DE CATEGORIAS
+// ========================================
 
-// LOGIN
+function filtrarCategoria(categoria) {
+    const produtos = document.querySelectorAll(".product-card");
+
+    produtos.forEach(function(produto) {
+        const categoriaProduto = produto.dataset.categoria;
+
+        // Se o cartão não possuir data-categoria,
+        // ele continua visível.
+        if (
+            categoria === "todos" ||
+            !categoriaProduto ||
+            categoriaProduto === categoria
+        ) {
+            produto.style.display = "";
+        } else {
+            produto.style.display = "none";
+        }
+    });
+}
+
+// ========================================
+// LOGIN DEMONSTRATIVO
+// ========================================
 
 function abrirLogin() {
+    const modal = document.getElementById("modalLogin");
 
-    document.getElementById("modalLogin").style.display =
-        "block";
+    if (modal) {
+        modal.style.display = "block";
+    }
 }
-
 
 function fecharLogin() {
+    const modal = document.getElementById("modalLogin");
 
-    document.getElementById("modalLogin").style.display =
-        "none";
+    if (modal) {
+        modal.style.display = "none";
+    }
 }
-
 
 function login() {
+    const email = document.getElementById("email");
+    const senha = document.getElementById("senha");
+    const mensagem = document.getElementById("mensagemLogin");
 
-    const email =
-        document.getElementById("email").value;
-
-    const senha =
-        document.getElementById("senha").value;
-
-    const mensagem =
-        document.getElementById("mensagemLogin");
-
-
-    if (email === "" || senha === "") {
-
-        mensagem.textContent =
-            "Preencha todos os campos.";
-
+    if (!email || !senha || !mensagem) {
         return;
     }
 
+    if (email.value.trim() === "" || senha.value.trim() === "") {
+        mensagem.textContent = "Preencha todos os campos.";
+        return;
+    }
 
     mensagem.textContent =
-        "Login realizado com sucesso!";
+        "Validação demonstrativa concluída. A autenticação real não está configurada.";
 }
 
-
+// ========================================
 // FIDELIDADE
+// ========================================
 
 function mostrarRecompensa() {
+    const pontosElemento = document.getElementById("pontos");
+    const recompensa = document.getElementById("recompensa");
 
-    const pontos =
-        Number(document.getElementById("pontos").textContent);
+    if (!pontosElemento || !recompensa) {
+        return;
+    }
 
-    const recompensa =
-        document.getElementById("recompensa");
-
+    const pontos = Number(pontosElemento.textContent);
 
     if (pontos >= 100) {
-
         recompensa.textContent =
             "Você possui pontos suficientes para uma recompensa!";
-
     } else {
-
         recompensa.textContent =
             "Continue acumulando pontos para desbloquear recompensas.";
-
     }
 }
 
-
-// Finalizar Pedido
-
-function finalizarPedido(event) {
-    event.preventDefault();
-
-    const consentimento = document.getElementById("consentimento");
-    const formulario = document.getElementById("form-pedido");
-
-    if (carrinho.length === 0) {
-        alert("Adicione pelo menos um item ao pedido.");
-        return;
-    }
-
-    if (!formulario.checkValidity()) {
-        formulario.reportValidity();
-        return;
-    }
-
-    if (!consentimento.checked) {
-        alert("É necessário aceitar o aviso de privacidade.");
-        return;
-    }
-
-    alert("Pedido confirmado! Pagamento demonstrativo, sem cobrança real.");
-
-    // Limpa o carrinho após a confirmação demonstrativa.
-    carrinho.length = 0;
-    atualizarCarrinho();
-    formulario.reset();
-}
-
-// EXIBIR A UNIDADE SELECIONADA NO CARDÁPIO
-
-document.addEventListener("DOMContentLoaded", function () {
-    const nomeUnidade = document.getElementById("nome-unidade");
-
-    if (nomeUnidade) {
-        const unidade = localStorage.getItem("unidadeSelecionada");
-
-        nomeUnidade.textContent = unidade || "Selecione uma unidade";
-    }
-});
+// ========================================
+// SELEÇÃO DE UNIDADE
+// ========================================
 
 function selecionarUnidade(nomeUnidade) {
     localStorage.setItem("unidadeSelecionada", nomeUnidade);
@@ -223,17 +221,13 @@ function mostrarUnidadeSelecionada() {
     const nomeUnidade = localStorage.getItem("unidadeSelecionada");
     const elemento = document.getElementById("nome-unidade");
 
-    if (elemento && nomeUnidade) {
-        elemento.textContent = nomeUnidade;
+    if (elemento) {
+        elemento.textContent =
+            nomeUnidade || "Selecione uma unidade";
     }
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    mostrarUnidadeSelecionada();
-    filtrarProdutosPorUnidade();
-});
-
-
+// Mostrar apenas os produtos disponíveis na unidade
 function filtrarProdutosPorUnidade() {
     const unidade = localStorage.getItem("unidadeSelecionada");
     const produtos = document.querySelectorAll(".product-card");
@@ -246,11 +240,564 @@ function filtrarProdutosPorUnidade() {
             return;
         }
 
-        const unidadesDisponiveis = unidades.split(",").map(function(nome) {
-            return nome.trim();
-        });
+        const unidadesDisponiveis = unidades
+            .split(",")
+            .map(function(nome) {
+                return nome.trim();
+            });
 
         produto.style.display =
             unidadesDisponiveis.includes(unidade) ? "" : "none";
     });
+}
+const idProduto = window.location.hash;
+
+if (idProduto) {
+    setTimeout(function() {
+        const produto = document.querySelector(idProduto);
+
+        if (produto && produto.style.display !== "none") {
+            produto.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        }
+    }, 100);
+}
+
+// ========================================
+// FINALIZAR PEDIDO
+// ========================================
+
+function finalizarPedido(event) {
+    if (event) {
+        event.preventDefault();
+    }
+
+    const formulario = document.getElementById("form-pedido");
+    const consentimento = document.getElementById("consentimento");
+
+    if (carrinho.length === 0) {
+        alert("Adicione pelo menos um item ao pedido.");
+        return;
+    }
+
+    if (!formulario) {
+        alert("Não foi possível localizar o formulário do pedido.");
+        return;
+    }
+
+    if (!formulario.checkValidity()) {
+        formulario.reportValidity();
+        return;
+    }
+
+    if (!consentimento || !consentimento.checked) {
+        alert("É necessário aceitar o aviso de privacidade.");
+        return;
+    }
+
+    const dadosUsuario = localStorage.getItem("usuarioLogado");
+
+    if (!dadosUsuario) {
+        alert("Entre na sua conta antes de finalizar o pedido.");
+        window.location.href = "perfil.html";
+        return;
+    }
+
+    const usuarioLogado = JSON.parse(dadosUsuario);
+
+    const unidade = localStorage.getItem("unidadeSelecionada");
+
+    if (!unidade) {
+        alert("Selecione uma unidade antes de confirmar o pedido.");
+        return;
+    }
+
+    const pagamento = formulario.querySelector(
+        'input[name="pagamento"]:checked'
+    );
+
+    if (!pagamento) {
+        alert("Selecione um método de pagamento.");
+        return;
+    }
+
+    const total = carrinho.reduce(function(soma, item) {
+        return soma + item.preco;
+    }, 0);
+
+    const pontosGanhos = adicionarPontos(total);
+
+    const novoPedido = {
+        id: Date.now(),
+        clienteEmail: usuarioLogado.email,
+        data: new Date().toLocaleString("pt-BR"),
+        unidade: unidade,
+        itens: carrinho.map(function(item) {
+            return {
+                nome: item.nome,
+                preco: item.preco
+            };
+        }),
+        total: total,
+        status: "Pedido recebido"
+    };
+
+    salvarPedido(novoPedido);
+
+    const resumoPedido = carrinho.map(function(item) {
+        return item.nome + " - R$ " + formatarPreco(item.preco);
+    }).join("\n");
+
+    alert(
+        "PEDIDO DEMONSTRATIVO CONFIRMADO!\n\n" +
+        "Unidade: " + unidade + "\n\n" +
+        "Itens:\n" + resumoPedido + "\n\n" +
+        "Total: R$ " + formatarPreco(total) + "\n" +
+        "Pagamento: " + pagamento.value + "\n\n" +
+        "Pontos de fidelidade ganhos: " + pontosGanhos + "\n\n" +
+        "Nenhuma cobrança real foi realizada."
+    );
+
+    // Limpar o carrinho após a confirmação demonstrativa.
+    carrinho = [];
+    atualizarCarrinho();
+    formulario.reset();
+}
+
+// ========================================
+// INICIALIZAÇÃO
+// ========================================
+
+document.addEventListener("DOMContentLoaded", function() {
+    mostrarUnidadeSelecionada();
+    filtrarProdutosPorUnidade();
+    atualizarCarrinho();
+
+    aplicarPromocaoDaUrl();
+
+    mostrarRecompensa();
+    exibirPedidos();
+    atualizarPaginaFidelidade();
+
+    configurarCadastroLogin();
+    atualizarPerfilUsuario();
+});
+
+function obterPedidos() {
+    return JSON.parse(localStorage.getItem("pedidos")) || [];
+}
+
+function salvarPedido(pedido) {
+    const pedidos = obterPedidos();
+    pedidos.unshift(pedido);
+    localStorage.setItem("pedidos", JSON.stringify(pedidos));
+}
+
+function exibirPedidos() {
+    const lista = document.getElementById("lista-pedidos");
+
+    if (!lista) return;
+
+    lista.innerHTML = "";
+
+    const dadosUsuario = localStorage.getItem("usuarioLogado");
+
+    if (!dadosUsuario) {
+        lista.textContent = "Entre na sua conta para visualizar seus pedidos.";
+        return;
+    }
+
+    const usuarioLogado = JSON.parse(dadosUsuario);
+
+    const todosPedidos = obterPedidos();
+
+    const pedidos = todosPedidos.filter(function(pedido) {
+        return pedido.clienteEmail &&
+            pedido.clienteEmail.toLowerCase() ===
+            usuarioLogado.email.toLowerCase();
+    });
+
+    if (pedidos.length === 0) {
+        lista.textContent = "Você ainda não realizou nenhum pedido.";
+        return;
+    }
+
+    const etapas = [
+        "Pedido recebido",
+        "Em preparação",
+        "Saiu para entrega",
+        "Concluído"
+    ];
+
+    pedidos.forEach(function(pedido) {
+        const card = document.createElement("article");
+        card.className = "order-card";
+
+        const titulo = document.createElement("h2");
+        titulo.textContent = "Pedido #" + pedido.id;
+
+        const data = document.createElement("p");
+        data.textContent = "Data: " + pedido.data;
+
+        const unidade = document.createElement("p");
+        unidade.textContent = "Unidade: " + pedido.unidade;
+
+        const itens = document.createElement("p");
+        itens.textContent = "Itens: " + pedido.itens.map(function(item) {
+            return item.nome + " (R$ " +
+                Number(item.preco).toFixed(2).replace(".", ",") + ")";
+        }).join(", ");
+
+        const total = document.createElement("p");
+        total.textContent = "Total: R$ " +
+            Number(pedido.total).toFixed(2).replace(".", ",");
+
+        const tituloStatus = document.createElement("h3");
+        tituloStatus.textContent = "Acompanhe seu pedido";
+
+        const statusAtual = etapas.indexOf(pedido.status);
+        const etapaValida = statusAtual !== -1;
+
+        const status = document.createElement("p");
+        status.className = "order-status";
+        status.textContent = "Status: " + pedido.status;
+
+        const timeline = document.createElement("div");
+        timeline.className = "order-timeline";
+
+        etapas.forEach(function(etapa, indice) {
+            const passo = document.createElement("div");
+            passo.className = "order-step";
+
+            if (etapaValida && indice < statusAtual) {
+                passo.classList.add("completed");
+            } else if (etapaValida && indice === statusAtual) {
+                passo.classList.add("current");
+            }
+
+            const marcador = document.createElement("span");
+            marcador.className = "order-step-marker";
+            marcador.textContent =
+                etapaValida && indice < statusAtual ? "✓" : String(indice + 1);
+
+            const nomeEtapa = document.createElement("span");
+            nomeEtapa.className = "order-step-label";
+            nomeEtapa.textContent = etapa;
+
+            passo.append(marcador, nomeEtapa);
+            timeline.appendChild(passo);
+        });
+
+        const botao = document.createElement("button");
+        botao.type = "button";
+        botao.className = "btn btn-primary";
+
+        if (pedido.status === "Concluído") {
+            botao.textContent = "Pedido concluído";
+            botao.disabled = true;
+        } else if (!etapaValida) {
+            botao.textContent = "Status inválido";
+            botao.disabled = true;
+        } else {
+            botao.textContent = "Avançar status";
+            botao.addEventListener("click", function() {
+                atualizarStatusPedido(pedido.id);
+            });
+        }
+
+        card.append(
+            titulo,
+            data,
+            unidade,
+            itens,
+            total,
+            tituloStatus,
+            status,
+            timeline,
+            botao
+        );
+
+        lista.appendChild(card);
+    });
+}
+
+function atualizarStatusPedido(id) {
+    const pedidos = obterPedidos();
+
+    const pedido = pedidos.find(function(item) {
+        return String(item.id) === String(id);
+    });
+
+    if (!pedido) {
+        alert("Pedido não encontrado.");
+        return;
+    }
+
+    const etapas = [
+        "Pedido recebido",
+        "Em preparação",
+        "Saiu para entrega",
+        "Concluído"
+    ];
+
+    const etapaAtual = etapas.indexOf(pedido.status);
+
+    if (etapaAtual === -1) {
+        alert("Status do pedido inválido.");
+        return;
+    }
+
+    if (etapaAtual === etapas.length - 1) {
+        alert("Este pedido já foi concluído.");
+        return;
+    }
+
+    pedido.status = etapas[etapaAtual + 1];
+
+    localStorage.setItem("pedidos", JSON.stringify(pedidos));
+
+    exibirPedidos();
+}
+
+
+function obterPontos() {
+    const dadosUsuario = localStorage.getItem("usuarioLogado");
+
+    if (!dadosUsuario) {
+        return 0;
+    }
+
+    const usuario = JSON.parse(dadosUsuario);
+    const chavePontos = "pontosFidelidade_" + usuario.email.toLowerCase();
+
+    return Number(localStorage.getItem(chavePontos)) || 0;
+}
+
+function adicionarPontos(valorPedido) {
+    const dadosUsuario = localStorage.getItem("usuarioLogado");
+
+    if (!dadosUsuario) {
+        return 0;
+    }
+
+    const usuario = JSON.parse(dadosUsuario);
+    const chavePontos = "pontosFidelidade_" + usuario.email.toLowerCase();
+
+    const pontosGanhos = Math.floor(Number(valorPedido));
+    const saldoAtual = obterPontos();
+    const novoSaldo = saldoAtual + pontosGanhos;
+
+    localStorage.setItem(chavePontos, novoSaldo);
+
+    return pontosGanhos;
+}
+
+function atualizarPaginaFidelidade() {
+    const saldoElemento = document.getElementById("saldo-pontos");
+    const estadoElemento = document.getElementById("estado-recompensa");
+    const botao = document.getElementById("botao-resgatar");
+    const mensagem = document.getElementById("mensagem-fidelidade");
+
+    if (!saldoElemento || !estadoElemento || !botao) {
+        return;
+    }
+
+    const dadosUsuario = localStorage.getItem("usuarioLogado");
+
+    if (!dadosUsuario) {
+        saldoElemento.textContent = "Entre na sua conta";
+        estadoElemento.textContent = "Faça login para consultar seus pontos.";
+        botao.disabled = true;
+
+        if (mensagem) {
+            mensagem.textContent = "";
+        }
+
+        return;
+    }
+
+    const usuario = JSON.parse(dadosUsuario);
+    const email = usuario.email.toLowerCase();
+
+    const chaveRecompensa = "recompensaResgatada_" + email;
+    const recompensaResgatada =
+        localStorage.getItem(chaveRecompensa) === "true";
+
+    const saldo = obterPontos();
+
+    saldoElemento.textContent =
+        saldo + (saldo === 1 ? " ponto" : " pontos");
+
+    if (recompensaResgatada) {
+        estadoElemento.textContent = "Recompensa já resgatada";
+        botao.disabled = true;
+        botao.textContent = "Resgatada";
+    } else if (saldo >= 100) {
+        estadoElemento.textContent = "Você já pode resgatar!";
+        botao.disabled = false;
+        botao.textContent = "Resgatar";
+    } else {
+        estadoElemento.textContent = "Faltam " + (100 - saldo) + " pontos";
+        botao.disabled = true;
+        botao.textContent = "Resgatar";
+    }
+}
+
+function resgatarRecompensa() {
+    const mensagem = document.getElementById("mensagem-fidelidade");
+    const dadosUsuario = localStorage.getItem("usuarioLogado");
+
+    if (!dadosUsuario) {
+        if (mensagem) {
+            mensagem.textContent = "Entre na sua conta para resgatar a recompensa.";
+        }
+        return;
+    }
+
+    const usuario = JSON.parse(dadosUsuario);
+    const email = usuario.email.toLowerCase();
+
+    const chaveRecompensa = "recompensaResgatada_" + email;
+    const saldo = obterPontos();
+
+    if (localStorage.getItem(chaveRecompensa) === "true") {
+        if (mensagem) {
+            mensagem.textContent = "Você já resgatou esta recompensa.";
+        }
+        return;
+    }
+
+    if (saldo < 100) {
+        if (mensagem) {
+            mensagem.textContent = "Você precisa de 100 pontos para resgatar.";
+        }
+        return;
+    }
+
+    const chavePontos = "pontosFidelidade_" + email;
+
+    localStorage.setItem(chavePontos, saldo - 100);
+    localStorage.setItem(chaveRecompensa, "true");
+
+    if (mensagem) {
+        mensagem.textContent =
+            "Recompensa demonstrativa resgatada com sucesso!";
+    }
+
+    atualizarPaginaFidelidade();
+}
+
+function configurarCadastroLogin() {
+    const formularioCadastro = document.getElementById("form-cadastro");
+    const formularioLogin = document.getElementById("form-login");
+
+    if (formularioCadastro) {
+        formularioCadastro.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const nome = document.getElementById("cadastro-nome").value.trim();
+            const email = document.getElementById("cadastro-email").value.trim().toLowerCase();
+            const senha = document.getElementById("cadastro-senha").value;
+            const mensagem = document.getElementById("mensagem-cadastro");
+
+            if (!nome || !email || !senha) {
+                mensagem.textContent = "Preencha todos os campos.";
+                return;
+            }
+
+            if (senha.length < 6) {
+                mensagem.textContent = "A senha deve ter pelo menos 6 caracteres.";
+                return;
+            }
+
+            const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+            const emailExiste = usuarios.some(function(usuario) {
+                return usuario.email === email;
+            });
+
+            if (emailExiste) {
+                mensagem.textContent = "Este e-mail já está cadastrado.";
+                return;
+            }
+
+            usuarios.push({
+                nome: nome,
+                email: email,
+                senha: senha
+            });
+
+            localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+            mensagem.textContent = "Cadastro realizado! Agora você pode entrar.";
+            formularioCadastro.reset();
+        });
+    }
+
+    if (formularioLogin) {
+        formularioLogin.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById("login-email").value.trim().toLowerCase();
+            const senha = document.getElementById("login-senha").value;
+            const mensagem = document.getElementById("mensagem-login");
+
+            const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+            const usuarioEncontrado = usuarios.find(function(usuario) {
+                return usuario.email === email && usuario.senha === senha;
+            });
+
+            if (!usuarioEncontrado) {
+                mensagem.textContent = "E-mail ou senha incorretos.";
+                return;
+            }
+
+            localStorage.setItem("usuarioLogado", JSON.stringify({
+                nome: usuarioEncontrado.nome,
+                email: usuarioEncontrado.email
+            }));
+
+            mensagem.textContent = "Login realizado com sucesso!";
+            formularioLogin.reset();
+            atualizarPerfilUsuario();
+        });
+    }
+}
+
+function atualizarPerfilUsuario() {
+    const areaPerfil = document.getElementById("area-perfil");
+    const nomeUsuario = document.getElementById("nome-usuario");
+    const emailUsuario = document.getElementById("email-usuario");
+    const botaoSair = document.getElementById("botao-sair");
+
+    if (!areaPerfil || !nomeUsuario || !emailUsuario) {
+        return;
+    }
+
+    const dados = localStorage.getItem("usuarioLogado");
+    const usuario = dados ? JSON.parse(dados) : null;
+
+    areaPerfil.hidden = !usuario;
+
+    if (usuario) {
+        nomeUsuario.textContent = usuario.nome;
+        emailUsuario.textContent = usuario.email;
+    }
+
+    if (botaoSair && !botaoSair.dataset.configurado) {
+        botaoSair.dataset.configurado = "true";
+
+        botaoSair.addEventListener("click", function() {
+            localStorage.removeItem("usuarioLogado");
+            atualizarPerfilUsuario();
+
+            const mensagemLogin = document.getElementById("mensagem-login");
+            if (mensagemLogin) {
+                mensagemLogin.textContent = "Você saiu da sua conta.";
+            }
+        });
+    }
 }

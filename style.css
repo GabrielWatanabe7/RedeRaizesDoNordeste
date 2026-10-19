@@ -1212,3 +1212,539 @@ img {
         grid-column: 2;
     }
 }
+
+
+.orders-page {
+    padding-top: 50px;
+    padding-bottom: 60px;
+}
+
+.orders-intro {
+    margin-bottom: 30px;
+}
+
+.orders-intro h1 {
+    margin: 10px 0;
+}
+
+.orders-list {
+    display: grid;
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.order-card {
+    background: #fff;
+    border: 1px solid #e8e0d5;
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    overflow-wrap: anywhere;
+}
+
+.order-card h2 {
+    margin-top: 0;
+}
+
+.order-status {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 20px;
+    background: #f4ead8;
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+    .orders-page {
+        padding-top: 30px;
+    }
+
+    .order-card {
+        padding: 16px;
+    }
+}
+
+/* Linha do tempo dos pedidos */
+.order-timeline {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 28px 0;
+    position: relative;
+}
+
+.order-step {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    position: relative;
+    min-width: 0;
+}
+
+.order-step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    height: 3px;
+    background: #ded8ce;
+    width: calc(100% - 30px);
+    left: calc(50% + 18px);
+    top: 17px;
+}
+
+.order-step.completed:not(:last-child)::after {
+    background: #43865b;
+}
+
+.order-step-marker {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e9e5de;
+    color: #625d55;
+    font-weight: 700;
+    z-index: 1;
+    border: 2px solid #e9e5de;
+}
+
+.order-step.completed .order-step-marker {
+    background: #43865b;
+    color: white;
+    border-color: #43865b;
+}
+
+.order-step.current .order-step-marker {
+    background: #fff3df;
+    color: #8b5721;
+    border-color: #b87932;
+}
+
+.order-step-label {
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.order-step.completed .order-step-label,
+.order-step.current .order-step-label {
+    font-weight: 700;
+}
+
+@media (max-width: 480px) {
+    .order-timeline {
+        gap: 4px;
+    }
+
+    .order-step-label {
+        font-size: 10px;
+    }
+
+    .order-step-marker {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+
+    .order-step:not(:last-child)::after {
+        top: 14px;
+        left: calc(50% + 15px);
+        width: calc(100% - 22px);
+    }
+}
+
+/* Página de fidelidade */
+.loyalty-page {
+    padding-top: 45px;
+    padding-bottom: 60px;
+}
+
+.loyalty-intro {
+    margin-bottom: 30px;
+}
+
+.loyalty-intro h1 {
+    max-width: 700px;
+    margin: 12px 0;
+}
+
+.points-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 18px;
+    background: #17483b;
+    color: #fff;
+}
+
+.points-card h2 {
+    margin: 12px 0;
+    font-size: 36px;
+}
+
+.points-card p {
+    margin-bottom: 0;
+}
+
+.points-icon {
+    font-size: 58px;
+    color: #f0c778;
+}
+
+.rewards-section {
+    margin-bottom: 40px;
+}
+
+.reward-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
+    margin-top: 20px;
+    border: 1px solid #e8e0d5;
+    border-radius: 14px;
+    background: #fff;
+}
+
+.reward-icon {
+    font-size: 38px;
+}
+
+.reward-info {
+    flex: 1;
+}
+
+.reward-info h3 {
+    margin-top: 0;
+}
+
+.reward-info p {
+    margin-bottom: 8px;
+}
+
+#estado-recompensa {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#botao-resgatar:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+#mensagem-fidelidade {
+    font-weight: 600;
+    margin-top: 18px;
+}
+
+.loyalty-info {
+    padding: 25px;
+    border-radius: 14px;
+    background: #fff;
+}
+
+.loyalty-info li {
+    margin-bottom: 10px;
+}
+
+.loyalty-note {
+    font-size: 13px;
+    color: #655f57;
+    margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+    .points-card {
+        padding: 22px;
+    }
+
+    .points-card h2 {
+        font-size: 28px;
+    }
+
+    .points-icon {
+        font-size: 40px;
+    }
+
+    .reward-card {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        padding: 18px;
+    }
+
+    .reward-info {
+        min-width: 0;
+    }
+
+    .loyalty-page {
+        padding-top: 30px;
+    }
+}
+
+/* Página de cadastro e login */
+.perfil-page {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.perfil-intro {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.perfil-intro h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.perfil-container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+}
+
+.perfil-card {
+    background: #ffffff;
+    padding: 28px;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.perfil-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.perfil-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.perfil-card label {
+    font-weight: 600;
+}
+
+.perfil-card input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #d5d5d5;
+    border-radius: 8px;
+    font: inherit;
+}
+
+.perfil-card button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    background: #8b3f24;
+    color: #ffffff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.perfil-card button:hover {
+    background: #6f301b;
+}
+
+#mensagem-cadastro,
+#mensagem-login {
+    overflow-wrap: anywhere;
+    font-size: 14px;
+}
+
+.perfil-usuario {
+    margin-top: 25px;
+}
+
+@media (max-width: 700px) {
+    .perfil-page {
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    .perfil-container {
+        grid-template-columns: 1fr;
+    }
+
+    .perfil-intro h2 {
+        font-size: 26px;
+    }
+}
+
+/* =========================
+   PROMOÇÕES
+========================= */
+
+.promocoes-page {
+    padding-top: 45px;
+    padding-bottom: 50px;
+}
+
+.promocoes-intro {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.promocoes-etiqueta,
+.promocao-selo {
+    display: inline-block;
+    color: var(--marrom);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.promocoes-intro h1 {
+    margin: 12px 0;
+    font-size: clamp(28px, 4vw, 42px);
+}
+
+.promocoes-intro p {
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.promocao-destaque {
+    display: grid;
+    grid-template-columns: 1fr 180px;
+    align-items: center;
+    gap: 25px;
+    padding: 35px;
+    border-radius: 18px;
+    background: var(--verde);
+    color: var(--branco);
+    margin-bottom: 45px;
+}
+
+.promocao-destaque h2 {
+    font-size: 30px;
+    margin: 15px 0;
+}
+
+.promocao-destaque p {
+    line-height: 1.7;
+}
+
+.promocao-destaque .promocao-selo {
+    color: #f2d59b;
+}
+
+.promocao-destaque .preco-promocional strong {
+    color: #f2d59b;
+}
+
+.promocao-ilustracao {
+    font-size: 100px;
+    text-align: center;
+}
+
+.preco-promocional {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 18px 0;
+}
+
+.preco-promocional span {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.preco-promocional strong {
+    color: var(--marrom);
+    font-size: 25px;
+}
+
+.secao-titulo {
+    margin-bottom: 22px;
+}
+
+.secao-titulo h2 {
+    margin-bottom: 8px;
+}
+
+.promocoes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.promocao-card {
+    overflow: hidden;
+    border-radius: 14px;
+    background: var(--branco);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.promocao-imagem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 145px;
+    background: #f4eadb;
+    font-size: 65px;
+}
+
+.promocao-conteudo {
+    padding: 22px;
+}
+
+.promocao-conteudo h3 {
+    margin: 12px 0 8px;
+}
+
+.promocao-conteudo p {
+    line-height: 1.6;
+}
+
+.promocoes-aviso {
+    margin-top: 40px;
+    padding: 22px;
+    border-radius: 12px;
+    background: #f4eadb;
+    line-height: 1.7;
+}
+
+@media (max-width: 800px) {
+    .promocoes-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .promocao-destaque {
+        grid-template-columns: 1fr 100px;
+        padding: 25px;
+    }
+
+    .promocao-ilustracao {
+        font-size: 70px;
+    }
+}
+
+@media (max-width: 550px) {
+    .promocoes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .promocao-destaque {
+        grid-template-columns: 1fr;
+    }
+
+    .promocao-ilustracao {
+        display: none;
+    }
+}
