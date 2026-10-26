@@ -18,7 +18,6 @@
 <body>
 
 <header class="header">
-
     <div class="container header-container">
 
         <a href="index.html" class="logo">
@@ -30,7 +29,18 @@
             </div>
         </a>
 
-        <nav class="menu">
+        <button
+                class="menu-toggle"
+                id="menu-toggle"
+                type="button"
+                aria-label="Abrir menu"
+                aria-expanded="false"
+                aria-controls="menu-principal"
+        >
+            ☰
+        </button>
+
+        <nav class="menu" id="menu-principal">
             <a href="index.html">Início</a>
             <a href="unidades.html">Unidades</a>
             <a href="cardapio.html">Cardápio</a>
@@ -40,11 +50,8 @@
             <a href="perfil.html">Minha conta</a>
         </nav>
 
-
     </div>
-
 </header>
-
 
 <main>
 
@@ -339,6 +346,8 @@
     </div>
 
 </footer>
+
+<script src="script.js"></script>
 
 </body>
 </html>

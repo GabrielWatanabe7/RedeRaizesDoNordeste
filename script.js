@@ -1011,3 +1011,31 @@ function registrarPontosDoPedido(pedido) {
 
     return pontosGanhos;
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const botaoMenu = document.getElementById("menu-toggle");
+    const menu = document.getElementById("menu-principal");
+
+    if (!botaoMenu || !menu) return;
+
+    botaoMenu.addEventListener("click", function () {
+        const menuAberto = menu.classList.toggle("menu-aberto");
+
+        botaoMenu.setAttribute("aria-expanded", String(menuAberto));
+        botaoMenu.setAttribute(
+            "aria-label",
+            menuAberto ? "Fechar menu" : "Abrir menu"
+        );
+
+        botaoMenu.textContent = menuAberto ? "✕" : "☰";
+    });
+
+    menu.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+            menu.classList.remove("menu-aberto");
+            botaoMenu.setAttribute("aria-expanded", "false");
+            botaoMenu.setAttribute("aria-label", "Abrir menu");
+            botaoMenu.textContent = "☰";
+        });
+    });
+});
