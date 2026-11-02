@@ -12,36 +12,46 @@ function formatarPreco(valor) {
 
 // Adicionar produto ao carrinho
 function adicionarCarrinho(nome, preco) {
-    carrinho.push({
-        nome: nome,
-        preco: Number(preco)
+    preco = Number(preco);
+
+    const produtoExistente = carrinho.find(function(item) {
+        return item.nome === nome && item.preco === preco;
     });
+
+    if (produtoExistente) {
+        produtoExistente.quantidade++;
+    } else {
+        carrinho.push({
+            nome: nome,
+            preco: preco,
+            quantidade: 1
+        });
+    }
 
     atualizarCarrinho();
 }
 
+// Aplicar promoção recebida pela URL
 function aplicarPromocaoDaUrl() {
     const parametros = new URLSearchParams(window.location.search);
     const promocao = parametros.get("promo");
 
     const promocoes = {
-        "baiao-de-dois": {
-            nome: "Baião de dois",
-            preco: 24.90
-        },
         "frango-com-baiao": {
             nome: "Frango com baião",
             preco: 27.90
         },
+
         "cartola": {
             nome: "Cartola",
             preco: 9.90
         },
+
         "combo-nordestino": {
-            nome: "Combo Nordestino",
+            nome: "Combo Nordestino (Baião de dois, suco de maracujá e cartola)",
             preco: 42.90
-    }
-};
+        }
+    };
 
     if (!promocao || !promocoes[promocao]) {
         return;
@@ -69,7 +79,6 @@ function atualizarCarrinho() {
     const carrinhoElemento = document.getElementById("carrinho");
     const totalElemento = document.getElementById("total");
 
-    // A função também pode ser chamada em páginas sem carrinho.
     if (!carrinhoElemento || !totalElemento) {
         return;
     }
@@ -88,7 +97,8 @@ function atualizarCarrinho() {
     let total = 0;
 
     carrinho.forEach(function(item, index) {
-        total += item.preco;
+        const subtotal = item.preco * item.quantidade;
+        total += subtotal;
 
         const div = document.createElement("div");
         div.classList.add("item-carrinho");
@@ -96,8 +106,11 @@ function atualizarCarrinho() {
         const nome = document.createElement("span");
         nome.textContent = item.nome;
 
+        const quantidade = document.createElement("span");
+        quantidade.textContent = "Quantidade: " + item.quantidade;
+
         const preco = document.createElement("strong");
-        preco.textContent = "R$ " + formatarPreco(item.preco);
+        preco.textContent = "R$ " + formatarPreco(subtotal);
 
         const botaoRemover = document.createElement("button");
         botaoRemover.type = "button";
@@ -109,6 +122,7 @@ function atualizarCarrinho() {
         });
 
         div.appendChild(nome);
+        div.appendChild(quantidade);
         div.appendChild(preco);
         div.appendChild(botaoRemover);
 
@@ -118,13 +132,18 @@ function atualizarCarrinho() {
     totalElemento.textContent = formatarPreco(total);
 }
 
-// Remover produto do carrinho
+// Remover uma unidade do produto no carrinho
 function removerItem(index) {
     if (index < 0 || index >= carrinho.length) {
         return;
     }
 
-    carrinho.splice(index, 1);
+    if (carrinho[index].quantidade > 1) {
+        carrinho[index].quantidade--;
+    } else {
+        carrinho.splice(index, 1);
+    }
+
     atualizarCarrinho();
 }
 
@@ -218,7 +237,11 @@ function mostrarRecompensa() {
 // ========================================
 
 function selecionarUnidade(nomeUnidade) {
-    localStorage.setItem("unidadeSelecionada", nomeUnidade);
+    if (!nomeUnidade || !nomeUnidade.trim()) {
+        return;
+    }
+
+    localStorage.setItem("unidadeSelecionada", nomeUnidade.trim());
 }
 
 function mostrarUnidadeSelecionada() {
@@ -309,7 +332,22 @@ function finalizarPedido(event) {
         return;
     }
 
-    const usuarioLogado = JSON.parse(dadosUsuario);
+    let usuarioLogado;
+
+    try {
+        usuarioLogado = JSON.parse(dadosUsuario);
+    } catch (erro) {
+        alert("Não foi possível identificar sua conta. Entre novamente.");
+        localStorage.removeItem("usuarioLogado");
+        window.location.href = "perfil.html";
+        return;
+    }
+
+    if (!usuarioLogado || !usuarioLogado.email) {
+        alert("Não foi possível identificar sua conta. Entre novamente.");
+        window.location.href = "perfil.html";
+        return;
+    }
 
     const unidade = localStorage.getItem("unidadeSelecionada");
 
@@ -328,7 +366,7 @@ function finalizarPedido(event) {
     }
 
     const total = carrinho.reduce(function(soma, item) {
-        return soma + item.preco;
+        return soma + (item.preco * item.quantidade);
     }, 0);
 
     const novoPedido = {
@@ -339,7 +377,9 @@ function finalizarPedido(event) {
         itens: carrinho.map(function(item) {
             return {
                 nome: item.nome,
-                preco: item.preco
+                preco: item.preco,
+                quantidade: item.quantidade,
+                subtotal: item.preco * item.quantidade
             };
         }),
         total: total,
@@ -351,7 +391,9 @@ function finalizarPedido(event) {
     const pontosGanhos = registrarPontosDoPedido(novoPedido);
 
     const resumoPedido = carrinho.map(function(item) {
-        return item.nome + " - R$ " + formatarPreco(item.preco);
+        return item.nome +
+            " (Quantidade: " + item.quantidade + ")" +
+            " - R$ " + formatarPreco(item.preco * item.quantidade);
     }).join("\n");
 
     alert(
@@ -391,12 +433,58 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function obterPedidos() {
-    return JSON.parse(localStorage.getItem("pedidos")) || [];
+    const dadosUsuario = localStorage.getItem("usuarioLogado");
+
+    if (!dadosUsuario) {
+        return [];
+    }
+
+    let usuario;
+
+    try {
+        usuario = JSON.parse(dadosUsuario);
+    } catch (erro) {
+        return [];
+    }
+
+    if (!usuario || !usuario.email) {
+        return [];
+    }
+
+    let pedidos;
+
+    try {
+        pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+    } catch (erro) {
+        return [];
+    }
+
+    if (!Array.isArray(pedidos)) {
+        return [];
+    }
+
+    return pedidos.filter(function(pedido) {
+        return pedido &&
+            typeof pedido.clienteEmail === "string" &&
+            pedido.clienteEmail.toLowerCase() === usuario.email.toLowerCase();
+    });
 }
 
 function salvarPedido(pedido) {
-    const pedidos = obterPedidos();
+    let pedidos = [];
+
+    try {
+        pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+    } catch (erro) {
+        pedidos = [];
+    }
+
+    if (!Array.isArray(pedidos)) {
+        pedidos = [];
+    }
+
     pedidos.unshift(pedido);
+
     localStorage.setItem("pedidos", JSON.stringify(pedidos));
 }
 
@@ -415,8 +503,28 @@ function exibirPedidos() {
         return;
     }
 
-    const usuarioLogado = JSON.parse(dadosUsuario);
-    const todosPedidos = obterPedidos();
+    let usuarioLogado;
+
+    try {
+        usuarioLogado = JSON.parse(dadosUsuario);
+    } catch (erro) {
+        lista.textContent = "Não foi possível identificar sua conta. Entre novamente.";
+        return;
+    }
+
+    if (!usuarioLogado || !usuarioLogado.email) {
+        lista.textContent = "Não foi possível identificar sua conta. Entre novamente.";
+        return;
+    }
+
+    let todosPedidos = [];
+
+    try {
+        todosPedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+    } catch (erro) {
+        lista.textContent = "Não foi possível carregar seus pedidos.";
+        return;
+    }
 
     const pedidos = todosPedidos
         .filter(function(pedido) {
@@ -467,9 +575,14 @@ function exibirPedidos() {
         (pedido.itens || []).forEach(function(item) {
             const linha = document.createElement("li");
 
+            const quantidade = Number(item.quantidade) || 1;
+            const precoUnitario = Number(item.preco) || 0;
+            const subtotal = precoUnitario * quantidade;
+
             linha.textContent =
-                item.nome + " — R$ " +
-                Number(item.preco).toFixed(2).replace(".", ",");
+                item.nome +
+                " — " + quantidade + " unidade(s)" +
+                " — R$ " + subtotal.toFixed(2).replace(".", ",");
 
             listaItens.appendChild(linha);
         });
@@ -554,9 +667,9 @@ function exibirPedidos() {
 }
 
 function atualizarStatusPedido(id) {
-    const pedidos = obterPedidos();
+    const pedidosUsuario = obterPedidos();
 
-    const pedido = pedidos.find(function(item) {
+    const pedido = pedidosUsuario.find(function(item) {
         return String(item.id) === String(id);
     });
 
@@ -586,7 +699,29 @@ function atualizarStatusPedido(id) {
 
     pedido.status = etapas[etapaAtual + 1];
 
-    localStorage.setItem("pedidos", JSON.stringify(pedidos));
+    let todosPedidos = [];
+
+    try {
+        todosPedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+    } catch (erro) {
+        alert("Não foi possível atualizar o pedido.");
+        return;
+    }
+
+    const indice = todosPedidos.findIndex(function(item) {
+        return String(item.id) === String(id) &&
+            item.clienteEmail.toLowerCase() ===
+            JSON.parse(localStorage.getItem("usuarioLogado")).email.toLowerCase();
+    });
+
+    if (indice === -1) {
+        alert("Pedido não encontrado.");
+        return;
+    }
+
+    todosPedidos[indice] = pedido;
+
+    localStorage.setItem("pedidos", JSON.stringify(todosPedidos));
 
     exibirPedidos();
 }
@@ -779,7 +914,9 @@ function configurarCadastroLogin() {
             }
 
             const emailExiste = usuarios.some(function(usuario) {
-                return usuario.email.toLowerCase() === email;
+                return usuario &&
+                    typeof usuario.email === "string" &&
+                    usuario.email.toLowerCase() === email;
             });
 
             if (emailExiste) {
@@ -828,7 +965,11 @@ function configurarCadastroLogin() {
             }
 
             const usuarioEncontrado = usuarios.find(function(usuario) {
-                return usuario.email.toLowerCase() === email && usuario.senha === senha;
+                return usuario &&
+                    typeof usuario.email === "string" &&
+                    typeof usuario.senha === "string" &&
+                    usuario.email.toLowerCase() === email &&
+                    usuario.senha === senha;
             });
 
             if (!usuarioEncontrado) {
@@ -999,15 +1140,20 @@ function registrarPontosDoPedido(pedido) {
         return 0;
     }
 
-    // Registra o pedido antes de creditar os pontos.
+// Credita os pontos primeiro.
+    const pontosCreditados = adicionarPontos(pedido.total);
+
+    if (pontosCreditados !== pontosGanhos) {
+        return 0;
+    }
+
+// Registra o pedido como processado.
     pedidosProcessados.push(String(pedido.id));
 
     localStorage.setItem(
         chavePedidos,
         JSON.stringify(pedidosProcessados)
     );
-
-    adicionarPontos(pedido.total);
 
     return pontosGanhos;
 }

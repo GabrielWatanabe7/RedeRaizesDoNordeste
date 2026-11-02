@@ -27,7 +27,18 @@
             </div>
         </a>
 
-        <nav class="menu">
+        <button
+                class="menu-toggle"
+                id="menu-toggle"
+                type="button"
+                aria-label="Abrir menu"
+                aria-expanded="false"
+                aria-controls="menu-principal"
+        >
+            ☰
+        </button>
+
+        <nav class="menu" id="menu-principal">
             <a href="index.html">Início</a>
             <a href="unidades.html">Unidades</a>
             <a href="cardapio.html">Cardápio</a>
@@ -375,6 +386,7 @@
                 </div>
 
                 <!-- ÚNICO CONSENTIMENTO LGPD -->
+
                 <div class="privacy-consent">
                     <input
                             type="checkbox"
@@ -384,14 +396,12 @@
                     >
 
                     <label for="consentimento">
-                        Li e estou ciente do uso dos meus dados para processar este pedido.
-                    </label>
-
-                    <p>
+                        Li o
                         <a href="./privacidade.html" target="_blank" rel="noopener noreferrer">
-                            Ler Aviso de Privacidade
+                            Aviso de Privacidade
                         </a>
-                    </p>
+                        e estou ciente do uso dos meus dados para processar este pedido.
+                    </label>
                 </div>
 
                 <!-- CONFIRMAÇÃO -->
