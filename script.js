@@ -429,7 +429,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     configurarCadastroLogin();
     atualizarPerfilUsuario();
-    atualizarDadosClientePedido();
+    atualizarDadosClientePedido();A
 });
 
 function obterPedidos() {

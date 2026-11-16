@@ -2205,3 +2205,46 @@ img {
         z-index: 1000;
     }
 }
+
+/* Imagens dos produtos do cardápio */
+.product-image {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+/* Imagens das promoções */
+.promocao-ilustracao,
+.promocao-imagem {
+    overflow: hidden;
+}
+
+.promocao-ilustracao img,
+.promocao-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.promocao-imagem {
+    min-height: 220px;
+}
+
+/* Ajuste da imagem do Combo Nordestino */
+.promocao-ilustracao {
+    width: 300px;
+    height: 190px;
+    flex: 0 0 300px;
+    overflow: hidden;
+    border-radius: 12px;
+    transform: translateX(-116px);
+}
